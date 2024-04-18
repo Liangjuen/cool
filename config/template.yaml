@@ -1,0 +1,55 @@
+# 当前环境
+env: test
+
+# 数据库配置
+database:
+  host: localhost
+  port: 3306
+  username: root
+  password: secret
+  type: mysql
+  database: nest_demo_db
+
+# 应用程序
+app:
+  env: test
+  apiPrefix: api
+  protocol: http
+  port: 3000
+
+# CORS授权域名，由逗号分隔，无空格IE http://localhost:4200,http://my-domain.com
+authorized: http://localhost:4200
+
+# 访问 token
+accessToken:
+  secret: hello-i-am-an-access-token-secret-passphrase
+  duraation: 120960
+
+# redis 配置
+redis:
+  host: localhost
+  port: 6379
+  username: auth
+  password: 123456
+  database: 15
+
+# 邮箱
+mailer:
+  host: 你的邮箱服务运营商
+  port: 你的邮箱服务端口
+  user: 发送方的邮箱
+  pass: 授权码
+
+# 七牛云
+qiniu:
+# 秘钥配置 查看: https://portal.qiniu.com/developer/user/key
+  accessKey: 七牛云 AK 秘钥
+  secretKey: 七牛云 SK 秘钥
+# 域名配置 查看: https://portal.qiniu.com/cdn/domain
+  domain: 七牛云空间访问的域名
+# 空间名 查看: https://portal.qiniu.com/kodo/bucket
+  bucket: 空间名
+# 上传地址 
+  uploadUrl: http://upload.qiniu.com/
+# 存储区域编码(配置优先) 查看: https://developer.qiniu.com/kodo/1671/region-endpoint-fq
+  region: z2
