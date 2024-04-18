@@ -23,7 +23,7 @@ authorized: http://localhost:4200
 # 访问 token
 accessToken:
   secret: hello-i-am-an-access-token-secret-passphrase
-  duraation: 120960
+  duration: 120960
 
 # redis 配置
 redis:

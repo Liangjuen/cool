@@ -10,5 +10,5 @@ export class AccessToken {
 
 	@IsNumber()
 	@IsNotEmpty()
-	duraation: number
+	duration: number
 }

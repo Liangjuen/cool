@@ -60,14 +60,17 @@ export const validate = (config: Record<string, any>) => {
 	})
 	const errors = validateSync(validatedConfig, { skipMissingProperties: false })
 
-	const logger = new Logger('Validate')
+	const logger = new Logger('EnvConfigValidate')
 	const name = envFileName()
 
 	if (errors.length > 0) {
+		// 打印错误节点
 		errors.forEach(e => {
 			logger.error(`配置项 [${e.property}] 无效配置`)
 		})
+
 		logger.warn(`请检查 ${name}.yaml 文件配置`)
+
 		// 退出程序
 		process.exit(0)
 	}
