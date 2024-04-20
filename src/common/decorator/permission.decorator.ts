@@ -1,7 +1,5 @@
 import { SetMetadata } from '@nestjs/common'
-import config from '@/config'
-
-const { guard } = config
+import { PERMISSION_GUARD_METADATA_KEY } from '@/common/constants'
 
 /**
  * 设置接口权限元信息
@@ -10,5 +8,5 @@ const { guard } = config
  */
 export const Permission = (args: string[] | string) => {
 	const param = typeof args == 'string' ? [args] : args
-	return SetMetadata(guard.permission.metadataKey, param)
+	return SetMetadata(PERMISSION_GUARD_METADATA_KEY, param)
 }

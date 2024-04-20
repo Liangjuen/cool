@@ -1,7 +1,5 @@
 import { SetMetadata } from '@nestjs/common'
-import config from '@/config'
-
-const { guard } = config
+import { ROLE_GUARD_METADATA_KEY } from '@/common/constants'
 
 /**
  * 设置角色权限元信息
@@ -10,5 +8,5 @@ const { guard } = config
  */
 export const Role = (args: string[] | string) => {
 	const param = typeof args == 'string' ? [args] : args
-	return SetMetadata(guard.role.metadataKey, param)
+	return SetMetadata(ROLE_GUARD_METADATA_KEY, param)
 }
