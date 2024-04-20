@@ -1,11 +1,5 @@
 import { plainToInstance } from 'class-transformer'
-import {
-	IsString,
-	IsNotEmpty,
-	IsEnum,
-	validateSync,
-	ValidateNested
-} from 'class-validator'
+import { IsString, IsNotEmpty, IsEnum, validateSync, ValidateNested } from 'class-validator'
 import { Logger } from '@nestjs/common'
 
 import { envFileName } from '../env'

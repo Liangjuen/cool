@@ -1,6 +1,6 @@
 module.exports = {
     endOfLine: 'auto',
-    printWidth: 80,                    //（默认值）单行代码超出 80 个字符自动换行
+    printWidth: 120,                    //（默认值）单行代码超出 80 个字符自动换行
     tabWidth: 2,                       //（默认值）一个 tab 键缩进相当于 2 个空格
     useTabs: true,                     // 行缩进不使用 tab 键代替空格
     semi: false,                       //（默认值）禁止语句的末尾加上分号

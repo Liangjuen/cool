@@ -1,16 +1,10 @@
-import {
-	Controller,
-	Get,
-	Post,
-	Body,
-	Patch,
-	Param,
-	Delete,
-	ParseIntPipe
-} from '@nestjs/common'
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, UseGuards } from '@nestjs/common'
 import { UserService } from './user.service'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
+import { RoleGuard, PermissionGuard } from '@/guard'
+import { Role, Permission } from '@/common/decorator'
+import { PERM } from '@/common/permissions'
 
 @Controller('users')
 export class UserController {
@@ -27,15 +21,15 @@ export class UserController {
 	}
 
 	@Get(':id')
+	@Role('admin')
+	@Permission(PERM.Base.UserGet)
+	@UseGuards(RoleGuard, PermissionGuard)
 	findOne(@Param('id', ParseIntPipe) id: number) {
 		return this.userService.findOne(+id)
 	}
 
 	@Patch(':id')
-	update(
-		@Param('id', ParseIntPipe) id: number,
-		@Body() updateUserDto: UpdateUserDto
-	) {
+	update(@Param('id', ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto) {
 		return this.userService.update(+id, updateUserDto)
 	}
 

@@ -16,5 +16,4 @@ export const isTest = () => process.env.NODE_ENV === 'test'
 /**
  * 当前要加载的环境文件名
  */
-export const envFileName = () =>
-	isTest() ? 'test' : isProd() ? 'production' : 'development'
+export const envFileName = () => (isTest() ? 'test' : isProd() ? 'production' : 'development')

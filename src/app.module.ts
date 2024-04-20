@@ -1,9 +1,5 @@
-import {
-	Module,
-	NestModule,
-	MiddlewareConsumer,
-	RequestMethod
-} from '@nestjs/common'
+import { Module, NestModule, MiddlewareConsumer, RequestMethod } from '@nestjs/common'
+import { DataSource } from 'typeorm'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { ConfigModule, TypeOrmModule } from '@/globalModules'
@@ -16,9 +12,8 @@ import { LoggerMiddleware } from '@/middleware'
 	providers: [AppService]
 })
 export class AppModule implements NestModule {
+	constructor(private dataSource: DataSource) {}
 	configure(consumer: MiddlewareConsumer) {
-		consumer
-			.apply(LoggerMiddleware)
-			.forRoutes({ path: '*', method: RequestMethod.ALL })
+		consumer.apply(LoggerMiddleware).forRoutes({ path: '*', method: RequestMethod.ALL })
 	}
 }

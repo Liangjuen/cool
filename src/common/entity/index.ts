@@ -1,8 +1,4 @@
-import {
-	PrimaryGeneratedColumn,
-	CreateDateColumn,
-	UpdateDateColumn
-} from 'typeorm'
+import { PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 
 /**
  * @description 基础实体
