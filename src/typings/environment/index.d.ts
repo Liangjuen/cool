@@ -47,7 +47,7 @@ declare namespace ENV {
 		port: number
 		username: string
 		password: string
-		database: string
+		database: number
 	}
 
 	interface Mailer {

@@ -11,7 +11,9 @@ import { validate } from './configDto'
  * @returns
  */
 export const load = () => {
-	const config = yaml.load(readFileSync(join(process.cwd(), 'config/', envFileName() + '.yaml'), 'utf8'))
+	const config = yaml.load(
+		readFileSync(join(process.cwd(), 'config/', envFileName() + '.yaml'), 'utf8')
+	)
 
 	validate(config)
 
