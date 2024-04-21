@@ -3,7 +3,7 @@ import { DepartmentsService } from './departments.service'
 import { CreateDepartmentDto } from './dto/create-department.dto'
 import { UpdateDepartmentDto } from './dto/update-department.dto'
 
-@Controller('department')
+@Controller({ path: '/base/departments' })
 export class DepartmentsController {
 	constructor(private readonly departmentService: DepartmentsService) {}
 
