@@ -1,10 +1,9 @@
 import { Injectable, BadRequestException } from '@nestjs/common'
-import { CreateUserDto } from './dto/create-user.dto'
-import { UpdateUserDto } from './dto/update-user.dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository, Brackets } from 'typeorm'
 import { Users } from './entities/users.entity'
 import { defaultConfig } from './users.config'
+import { QueryUsersDto, CreateUserDto, UpdateUserDto, ResetPasswordDto } from './dto'
 
 @Injectable()
 export class UsersService {
@@ -49,15 +48,87 @@ export class UsersService {
 		return { user: data }
 	}
 
-	findAll() {}
+	async findAll({
+		page = 1,
+		size = 15,
+		sort = 'createdAt',
+		order = 'DESC',
+		keyword,
+		departmentIds,
+		status,
+		gender
+	}: QueryUsersDto): Promise<API.PagingQueryResult<Users>> {
+		const skip = (page - 1) * size
+		const query = this.userRepository.createQueryBuilder('user')
+
+		if (departmentIds && departmentIds.length) {
+			query.andWhere('departmentId IN (:...departmentIds)', { departmentIds })
+		}
+
+		if (keyword) {
+			query.andWhere(
+				'username LIKE :username OR name LIKE :name OR nickname LIKE :nickname OR phone LIKE :phone OR email LIKE :email',
+				{
+					username: '%' + keyword + '%',
+					name: '%' + keyword + '%',
+					nickname: '%' + keyword + '%',
+					phone: '%' + keyword + '%',
+					email: '%' + keyword + '%'
+				}
+			)
+		}
+
+		if (status == 0 || status) query.andWhere('status = :status', { status })
+
+		if (gender == 0 || gender) query.andWhere('gender = :gender', { gender })
+
+		query.addOrderBy(sort, order)
+
+		const [result, total] = await query.skip(skip).take(size).getManyAndCount()
+
+		return {
+			list: result,
+			total,
+			page,
+			size
+		}
+	}
 
 	async findOne(id: number) {
 		return await this.userRepository.findOneBy({ id })
 	}
 
-	update(id: number, updateUserDto: UpdateUserDto) {}
+	async update(id: number, updateUserDto: UpdateUserDto) {
+		const { username, nickname, phone, email } = updateUserDto
+		let { roles } = updateUserDto
 
-	remove(id: number) {}
+		/**
+		 * 校验重复
+		 */
+		await this.checkIfFieldsExist({
+			id,
+			username,
+			phone,
+			email,
+			nickname
+		})
+
+		roles = roles && roles.length ? roles : defaultConfig.roles
+		const user = await this.userRepository.findOneBy({ id })
+		const newUser = this.userRepository.merge(user, updateUserDto)
+		if (updateUserDto.password) await newUser.hashPassword()
+		const result = await this.userRepository.save(newUser)
+		delete result.password
+		return result
+	}
+
+	async remove(ids: number[]) {
+		try {
+			await this.userRepository.delete(ids)
+		} catch (error) {
+			return new BadRequestException('删除失败')
+		}
+	}
 
 	async findOneByUsername(username: string) {
 		const query = this.userRepository
@@ -65,6 +136,17 @@ export class UsersService {
 			.andWhere('user.username = :username', { username })
 			.addSelect('user.password')
 		return await query.getOne()
+	}
+
+	async resetPass(id: number, rest: ResetPasswordDto) {
+		const { password } = rest
+
+		const user = await this.userRepository.findOneBy({ id })
+		const mergUser = this.userRepository.merge(user, { password })
+		await mergUser.hashPassword()
+
+		this.userRepository.save(mergUser)
+		delete mergUser.password
 	}
 
 	/**
