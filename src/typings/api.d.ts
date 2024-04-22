@@ -6,12 +6,12 @@ declare namespace API {
 		/**
 		 * 当前页面
 		 */
-		page: number
+		page?: number
 
 		/**
 		 * 每次查询条数
 		 */
-		size: number
+		size?: number
 
 		/**
 		 * 搜索关键词
@@ -32,7 +32,7 @@ declare namespace API {
 	/**
 	 * 分页查询结果
 	 */
-	interface PagingQueryResult<T> {
+	interface PagingQueryResult<T = any> {
 		/**
 		 * 当前页面
 		 */
@@ -51,6 +51,6 @@ declare namespace API {
 		/**
 		 * 数据
 		 */
-		data: Array<T> | null
+		list: Array<T> | null
 	}
 }

@@ -4,13 +4,13 @@ import { APP_GUARD } from '@nestjs/core'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { ConfigModule, TypeOrmModule, JwtModule } from '@/globalModules'
-import { UsersModule } from '@/modules/users/users.module'
+import { BaseModule } from '@/modules/base'
 import { AuthModule } from '@/modules/auth/auth.module'
 import { LoggerMiddleware } from '@/middleware'
 import { AuthGuard } from '@/guard'
 
 @Module({
-	imports: [ConfigModule, TypeOrmModule, JwtModule, AuthModule, UsersModule],
+	imports: [ConfigModule, TypeOrmModule, JwtModule, AuthModule, BaseModule],
 	controllers: [AppController],
 	providers: [
 		AppService,
