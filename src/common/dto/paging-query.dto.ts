@@ -1,16 +1,16 @@
-import { IsInt, Min, Max, IsNotEmpty, IsString, IsOptional, IsIn } from 'class-validator'
+import { IsInt, Min, Max, IsString, IsOptional, IsIn } from 'class-validator'
 import { IsNaturalNumber } from '@/common/validation'
 
 export class PagingQueryDto implements API.PagingQuery {
-	@IsNotEmpty({ message: 'page 为必选项' })
+	@IsOptional()
 	@IsInt()
 	@Min(1, { message: 'page 需为正整数' })
-	page: number
+	page?: number
 
-	@IsNotEmpty({ message: 'size 为必选项' })
+	@IsOptional()
 	@IsNaturalNumber({ message: 'size 需为自然数' })
 	@Max(500, { message: 'size 不得超过最大限制 500' })
-	size: number
+	size?: number
 
 	@IsString()
 	@IsOptional()
