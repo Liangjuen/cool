@@ -1,9 +1,26 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
+import {
+	Controller,
+	Get,
+	Post,
+	Body,
+	Put,
+	Param,
+	Delete,
+	UseGuards,
+	HttpCode,
+	HttpStatus
+} from '@nestjs/common'
+import { PermissionGuard } from '@/guard'
+import { Permission } from '@/common/decorator'
 import { DepartmentsService } from './departments.service'
+import { PagingQueryDto } from '@/common/dto'
+import { ParseIntArrayPipe } from '@/common/pipe'
 import { CreateDepartmentDto } from './dto/create-department.dto'
 import { UpdateDepartmentDto } from './dto/update-department.dto'
+import { PERM } from '@/common/permissions'
 
 @Controller({ path: '/base/departments' })
+@UseGuards(PermissionGuard)
 export class DepartmentsController {
 	constructor(private readonly departmentService: DepartmentsService) {}
 
@@ -13,8 +30,8 @@ export class DepartmentsController {
 	}
 
 	@Get()
-	findAll() {
-		return this.departmentService.findAll()
+	findAll(@Body() pagingQuery: PagingQueryDto) {
+		return this.departmentService.findAll(pagingQuery)
 	}
 
 	@Get(':id')
@@ -22,13 +39,15 @@ export class DepartmentsController {
 		return this.departmentService.findOne(+id)
 	}
 
-	@Patch(':id')
+	@Put(':id')
 	update(@Param('id') id: string, @Body() updateDepartmentDto: UpdateDepartmentDto) {
 		return this.departmentService.update(+id, updateDepartmentDto)
 	}
 
-	@Delete(':id')
-	remove(@Param('id') id: string) {
-		return this.departmentService.remove(+id)
+	@Delete(':ids')
+	@HttpCode(HttpStatus.NO_CONTENT)
+	@Permission(PERM.Base.DepartmentRemove)
+	remove(@Param('ids', ParseIntArrayPipe) ids: number[]) {
+		return this.departmentService.remove(ids)
 	}
 }
