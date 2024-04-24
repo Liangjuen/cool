@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common'
-import { JwtModule } from '@/globalModules'
 import { UsersService } from './users.service'
 import { UserController } from './users.controller'
 import { TypeOrmModule } from '@nestjs/typeorm'
