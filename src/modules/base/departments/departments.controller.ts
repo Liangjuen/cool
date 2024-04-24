@@ -18,9 +18,11 @@ import { ParseIntArrayPipe } from '@/common/pipe'
 import { CreateDepartmentDto } from './dto/create-department.dto'
 import { UpdateDepartmentDto } from './dto/update-department.dto'
 import { PERM } from '@/common/permissions'
+import { ApiTags } from '@nestjs/swagger'
 
 @Controller({ path: '/base/departments' })
 @UseGuards(PermissionGuard)
+@ApiTags('部门')
 export class DepartmentsController {
 	constructor(private readonly departmentService: DepartmentsService) {}
 

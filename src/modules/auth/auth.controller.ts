@@ -3,8 +3,10 @@ import { AuthService } from './auth.service'
 import { UsersService } from '../base/users/users.service'
 import { LoginDto } from './dto/login.dto'
 import { Public } from '@/common/decorator'
+import { ApiTags } from '@nestjs/swagger'
 
 @Controller('auth')
+@ApiTags('权限')
 export class AuthController {
 	constructor(
 		private readonly usersService: UsersService,

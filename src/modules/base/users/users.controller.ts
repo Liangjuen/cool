@@ -17,9 +17,11 @@ import { ParseIntArrayPipe } from '@/common/pipe'
 import { PermissionGuard } from '@/guard'
 import { Permission } from '@/common/decorator'
 import { PERM } from '@/common/permissions'
+import { ApiTags } from '@nestjs/swagger'
 
 @Controller({ path: '/base/users' })
 @UseGuards(PermissionGuard)
+@ApiTags('用户')
 export class UserController {
 	constructor(private readonly userService: UsersService) {}
 
