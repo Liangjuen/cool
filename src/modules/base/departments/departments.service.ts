@@ -1,7 +1,7 @@
 import { Injectable, BadRequestException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository, Brackets } from 'typeorm'
-import { Departments } from './entities/departments.entity'
+import { Department } from './entities/department.entity'
 import { PagingQueryDto } from '@/common/dto'
 import { CreateDepartmentDto } from './dto/create-department.dto'
 import { UpdateDepartmentDto } from './dto/update-department.dto'
@@ -9,7 +9,7 @@ import { UpdateDepartmentDto } from './dto/update-department.dto'
 @Injectable()
 export class DepartmentsService {
 	constructor(
-		@InjectRepository(Departments) private readonly departRepository: Repository<Departments>
+		@InjectRepository(Department) private readonly departRepository: Repository<Department>
 	) {}
 
 	async create(createDepartmentDto: CreateDepartmentDto) {
@@ -32,7 +32,7 @@ export class DepartmentsService {
 		sort = 'createdAt',
 		order = 'DESC',
 		keyword
-	}: PagingQueryDto): Promise<API.PagingQueryResult<Departments>> {
+	}: PagingQueryDto): Promise<API.PagingQueryResult<Department>> {
 		const skip = (page - 1) * size
 		const query = this.departRepository.createQueryBuilder('depart')
 

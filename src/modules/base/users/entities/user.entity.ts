@@ -7,7 +7,7 @@ import * as bcrypt from 'bcrypt'
 	name: 'users',
 	comment: '用户表'
 })
-export class Users extends BaseEntity {
+export class User extends BaseEntity {
 	@Index()
 	@Column({ comment: '部门ID', nullable: true, default: null })
 	departmentId: number

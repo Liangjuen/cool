@@ -1,8 +1,9 @@
-import { Entity, Column } from 'typeorm'
+import { Entity, Column, Index } from 'typeorm'
 import { BaseEntity } from '@/common/entity'
 
-@Entity()
-export class Departments extends BaseEntity {
+@Entity('departments')
+export class Department extends BaseEntity {
+	@Index({ unique: true })
 	@Column({ comment: '部门名称' })
 	name: string
 

@@ -1,13 +1,13 @@
 import { Injectable, BadRequestException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository, Brackets } from 'typeorm'
-import { Users } from './entities/users.entity'
+import { User } from './entities/user.entity'
 import { defaultConfig } from './users.config'
 import { QueryUsersDto, CreateUserDto, UpdateUserDto, ResetPasswordDto } from './dto'
 
 @Injectable()
 export class UsersService {
-	constructor(@InjectRepository(Users) private readonly userRepository: Repository<Users>) {}
+	constructor(@InjectRepository(User) private readonly userRepository: Repository<User>) {}
 
 	/**
 	 * 创建
@@ -57,7 +57,7 @@ export class UsersService {
 		departmentIds,
 		status,
 		gender
-	}: QueryUsersDto): Promise<API.PagingQueryResult<Users>> {
+	}: QueryUsersDto): Promise<API.PagingQueryResult<User>> {
 		const skip = (page - 1) * size
 		const query = this.userRepository.createQueryBuilder('user')
 

@@ -6,7 +6,7 @@ import { Status, Gender } from '@/common/enums'
 export class QueryUsersDto extends PartialType(PagingQueryDto) {
 	@IsOptional()
 	@IsInt({ each: true })
-	departmentIds?: string[]
+	departmentIds?: number[]
 
 	@IsOptional()
 	@IsEnum(Status)

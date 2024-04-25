@@ -46,7 +46,7 @@ export class UserController {
 	@Put(':id')
 	@Permission(PERM.Base.UserUpdate)
 	update(@Param('id', ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto) {
-		return this.userService.update(+id, updateUserDto)
+		return this.userService.update(id, updateUserDto)
 	}
 
 	@Delete(':ids')
