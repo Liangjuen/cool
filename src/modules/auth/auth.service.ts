@@ -2,7 +2,9 @@ import { Injectable, UnauthorizedException, NotFoundException } from '@nestjs/co
 import { ConfigService } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
 import { UsersService } from '../base/users/users.service'
-import { Users } from '@/modules/base/users/entities/users.entity'
+import { User } from '@/modules/base/users/entities/user.entity'
+import { MenusService } from '../base/menus'
+import { PermsService } from '../base/perms'
 
 /**
  * [身份认证](http://nestjs.inode.club/security/authentication)
@@ -12,7 +14,9 @@ export class AuthService {
 	constructor(
 		private configService: ConfigService,
 		private usersService: UsersService,
-		private jwtService: JwtService
+		private jwtService: JwtService,
+		private menusService: MenusService,
+		private permsService: PermsService
 	) {}
 
 	public async login(username: string, password: string) {
@@ -34,11 +38,17 @@ export class AuthService {
 
 		delete user.password
 
+		const perms = await this.permsService.findAll()
+
+		const menus = await this.menusService.findAll({})
+
 		return {
 			access: {
 				expiration,
 				token
 			},
+			perms,
+			menus,
 			user
 		}
 	}
@@ -48,7 +58,7 @@ export class AuthService {
 	 * @param param
 	 * @returns
 	 */
-	private async createToken({ username, id, roles, email }: Users) {
+	private async createToken({ username, id, roles, email }: User) {
 		const jwtPayload: Payload = {
 			username,
 			id,
