@@ -1,6 +1,6 @@
 import { Injectable, BadRequestException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository, Brackets } from 'typeorm'
+import { Repository, Brackets, In } from 'typeorm'
 import { Role } from './entities/role.entity'
 import { QueryRolesDto, CreateRoleDto, UpdateRoleDto } from './dto'
 
@@ -97,5 +97,20 @@ export class RoleService {
 			if (entity.name == name) throw new BadRequestException('角色名称已被占用')
 			if (entity.code == code) throw new BadRequestException('编码已被占用')
 		}
+	}
+
+	/**
+	 * 根据角色 `code` 获取角色 `menuIdList`
+	 * @param codes 角色编码
+	 * @returns
+	 */
+	public async getRolesMenusByCodes(codes: string[]) {
+		const roles = await this.roleRepository.find({
+			select: ['menuIdList'],
+			where: { code: In(codes) }
+		})
+		const menuIds: number[] = []
+		roles.forEach(r => menuIds.push(...r.menuIdList))
+		return menuIds
 	}
 }
