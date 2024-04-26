@@ -1,17 +1,26 @@
 import { Injectable, BadRequestException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { EventEmitter2 } from '@nestjs/event-emitter'
 import { Repository, Brackets, In } from 'typeorm'
 import { Role } from './entities/role.entity'
 import { QueryRolesDto, CreateRoleDto, UpdateRoleDto } from './dto'
+import { ROLE_CHANGED_EVENT } from '@/common/constants'
 
 @Injectable()
 export class RoleService {
-	constructor(@InjectRepository(Role) private roleRepository: Repository<Role>) {}
+	constructor(
+		@InjectRepository(Role) private roleRepository: Repository<Role>,
+		private eventEmitter: EventEmitter2
+	) {}
 
 	async create(createRoleDto: CreateRoleDto) {
 		const { name, code } = createRoleDto
 		await this.checkIfFieldsExist({ name, code })
 		const role = this.roleRepository.create(createRoleDto)
+
+		// 通知缓存更新
+		await this.eventEmitter.emitAsync(ROLE_CHANGED_EVENT)
+
 		return await this.roleRepository.save(role)
 	}
 
@@ -58,6 +67,9 @@ export class RoleService {
 
 		const role = await this.roleRepository.findOneBy({ id })
 		const newRole = this.roleRepository.merge(role, updateRoleDto)
+
+		// 通知缓存更新
+		await this.eventEmitter.emitAsync(ROLE_CHANGED_EVENT)
 
 		return await this.roleRepository.save(newRole)
 	}
