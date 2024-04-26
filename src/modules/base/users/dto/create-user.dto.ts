@@ -40,6 +40,7 @@ export class CreateUserDto {
 	@IsPhoneNumber()
 	phone: string
 
+	@IsOptional()
 	@IsArray()
 	@ArrayMaxSize(10, { message: '用户角色数量超过最大限制: 10' })
 	roles: Array<string>

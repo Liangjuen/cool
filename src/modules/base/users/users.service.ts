@@ -115,7 +115,7 @@ export class UsersService {
 
 		roles = roles && roles.length ? roles : defaultConfig.roles
 		const user = await this.userRepository.findOneBy({ id })
-		const newUser = this.userRepository.merge(user, updateUserDto)
+		const newUser = this.userRepository.merge(user, { ...updateUserDto, roles })
 		if (updateUserDto.password) await newUser.hashPassword()
 		const result = await this.userRepository.save(newUser)
 		delete result.password
