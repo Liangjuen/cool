@@ -38,17 +38,17 @@ export class AuthService {
 
 		delete user.password
 
-		const perms = await this.permsService.findAll()
+		// const perms = await this.permsService.findAll()
 
-		const menus = await this.menusService.findAll({})
+		// const menus = await this.menusService.findAll({})
 
 		return {
 			access: {
 				expiration,
 				token
 			},
-			perms,
-			menus,
+			// perms,
+			// menus,
 			user
 		}
 	}

@@ -6,7 +6,7 @@ import { Public } from '@/common/decorator'
 import { ApiTags } from '@nestjs/swagger'
 
 @Controller('auth')
-@ApiTags('权限')
+@ApiTags('身份认证')
 export class AuthController {
 	constructor(
 		private readonly usersService: UsersService,

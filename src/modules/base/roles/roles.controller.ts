@@ -21,7 +21,7 @@ import { ApiTags } from '@nestjs/swagger'
 
 @Controller({ path: '/base/roles' })
 @UseGuards(PermissionGuard)
-@ApiTags('用户')
+@ApiTags('角色')
 export class RoleController {
 	constructor(private readonly roleService: RoleService) {}
 

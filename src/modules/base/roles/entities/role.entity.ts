@@ -13,14 +13,14 @@ export class Role extends BaseEntity {
 	@Column({ unique: true })
 	code: string
 
-	@Column({ type: 'simple-array' })
+	@Column({ type: 'simple-array', nullable: true, default: null })
 	menuIdList: number[]
 
-	@Column({ type: 'simple-array' })
+	@Column({ type: 'simple-array', nullable: true, default: null })
 	perms: string[]
 
-	@Column({ default: '', nullable: true })
-	remark: string
+	@Column({ default: null, nullable: true })
+	remark?: string
 
 	@Column({
 		type: 'enum',

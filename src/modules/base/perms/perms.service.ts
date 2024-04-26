@@ -4,6 +4,6 @@ import { perms } from '@/common/permissions'
 @Injectable()
 export class PermsService {
 	async findAll() {
-		return perms
+		return perms()
 	}
 }
