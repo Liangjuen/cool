@@ -4,7 +4,9 @@ import { readFileSync } from 'fs'
 import * as yaml from 'js-yaml'
 
 import { envFileName } from './env'
-import { validate } from './configDto'
+import { validate, EnvironmentVariables } from './configDto'
+
+interface Configuration extends EnvironmentVariables {}
 
 /**
  * 加载 .yaml 文件配置
@@ -17,13 +19,18 @@ export const load = () => {
 
 	validate(config)
 
-	return config as Record<string, any>
+	return config as Configuration
 }
+
+/**
+ * `configuration`
+ */
+export const configuration: Configuration = load()
 
 /**
  * `config` 模块配置项
  */
-export const configuration: ConfigModuleOptions = {
+export const configModuleOptions: ConfigModuleOptions = {
 	isGlobal: true,
 	load: [load],
 	cache: true

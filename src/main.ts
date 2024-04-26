@@ -3,6 +3,11 @@ import { ValidationPipe, Logger } from '@nestjs/common'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { HttpExceptionFilter, ResponseInterceptor } from '@/common/global'
 import { AppModule } from './app.module'
+import { configuration } from '@/config'
+
+const {
+	app: { port }
+} = configuration
 
 const logger = new Logger()
 
@@ -40,8 +45,8 @@ async function bootstrap() {
 	/**
 	 * 启动服务监听
 	 */
-	await app.listen(3000)
+	await app.listen(port)
 
-	logger.log(`Application is running on: ${await app.getUrl()}`, 'Main')
+	logger.verbose(`Application is running on: http://localhost:${port}`, 'Bootstrap')
 }
 bootstrap()

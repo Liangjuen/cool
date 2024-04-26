@@ -1,9 +1,7 @@
 import { ConfigService } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import ConfigModule from './config.module'
-import config from '@/config'
-
-const { isProd } = config
+import { isProd } from '@/config'
 
 export default TypeOrmModule.forRootAsync({
 	imports: [ConfigModule],
