@@ -4,8 +4,8 @@ import { AuthService } from './auth.service'
 import { AuthController } from './auth.controller'
 import { UsersModule } from '../base/users/users.module'
 import { UsersService } from '../base/users/users.service'
-import { MenusController, MenusModule, MenusService } from '../base/menus'
-import { PermsModule, PermsController, PermsService } from '../base/perms'
+import { MenusModule, MenusService } from '../base/menus'
+import { RoleModule, RoleService } from '../base/roles'
 
 /**
  * 身份认证模块
@@ -16,11 +16,9 @@ import { PermsModule, PermsController, PermsService } from '../base/perms'
  *
  */
 @Module({
-	imports: [ConfigModule, JwtModule, UsersModule, MenusModule, PermsModule],
-	providers: [AuthService, UsersService, MenusService, PermsService],
-	controllers: [AuthController, MenusController, PermsController],
+	imports: [ConfigModule, JwtModule, UsersModule, MenusModule, RoleModule],
+	providers: [AuthService, UsersService, MenusService, RoleService],
+	controllers: [AuthController],
 	exports: [AuthService]
 })
-export class AuthModule {
-	constructor(private usersService: UsersService) {}
-}
+export class AuthModule {}

@@ -15,8 +15,7 @@ export class AuthService {
 		private configService: ConfigService,
 		private usersService: UsersService,
 		private jwtService: JwtService,
-		private menusService: MenusService,
-		private permsService: PermsService
+		private menusService: MenusService
 	) {}
 
 	public async login(username: string, password: string) {
@@ -38,17 +37,15 @@ export class AuthService {
 
 		delete user.password
 
-		// const perms = await this.permsService.findAll()
-
-		// const menus = await this.menusService.findAll({})
+		const { menus, perms } = await this.menusService.getMenusByRoles(user.roles)
 
 		return {
 			access: {
 				expiration,
 				token
 			},
-			// perms,
-			// menus,
+			perms,
+			menus,
 			user
 		}
 	}
