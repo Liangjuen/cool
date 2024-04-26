@@ -1,14 +1,18 @@
 import { Injectable, BadRequestException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository, Brackets } from 'typeorm'
+import { Repository, Brackets, In } from 'typeorm'
 import { Menu } from './entities/menu.entity'
 import { CreateMenuDto, UpdateMenuDto, QueryMenusDto } from './dto'
 import { MenuCache, MenuHidden, MenuType } from './menus.type'
 import { ROLE } from '@/common/enums'
+import { RoleService } from '../roles'
 
 @Injectable()
 export class MenusService {
-	constructor(@InjectRepository(Menu) private menuRepository: Repository<Menu>) {}
+	constructor(
+		@InjectRepository(Menu) private menuRepository: Repository<Menu>,
+		private readonly roleService: RoleService
+	) {}
 
 	async create(createMenuDto: CreateMenuDto) {
 		await this.checkIfFieldsExist({ name: createMenuDto.name })
@@ -142,8 +146,18 @@ export class MenusService {
 			menus = await this.menuRepository.find({
 				order: { sort: 'ASC' }
 			})
+		} else {
+			const menuIds = await this.roleService.getRolesMenusByCodes(roleCodes)
+			menus = await this.menuRepository.find({ where: { id: In(menuIds) } })
 		}
 
-		return menus
+		const perms = []
+
+		menus.filter(m => m.type == MenuType.permission).forEach(i => perms.push(...i.perms))
+
+		return {
+			menus,
+			perms
+		}
 	}
 }
