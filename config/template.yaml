@@ -1,3 +1,6 @@
+
+##### <<======================================[必填项]==========================================>> #####
+
 # 当前环境
 env: test
 
@@ -33,6 +36,16 @@ redis:
   password: 123456
   database: 15
 
+file:
+# 文件上传模式: cloud(阿里OSS、腾讯OSS、七牛OSS、 ...)、local(本地)
+  mode: local
+# 本地上传 文件地址前缀
+  domain: http://127.0.0.1:3000
+
+
+##### <<======================================[可选项]==========================================>> #####
+
+
 # 邮箱
 mailer:
   host: 你的邮箱服务运营商
@@ -40,7 +53,7 @@ mailer:
   user: 发送方的邮箱
   pass: 授权码
 
-# 七牛云
+# 七牛云 使用本地上传可不配置
 qiniu:
 # 秘钥配置 查看: https://portal.qiniu.com/developer/user/key
   accessKey: 七牛云 AK 秘钥
@@ -53,3 +66,18 @@ qiniu:
   uploadUrl: http://upload.qiniu.com/
 # 存储区域编码(配置优先) 查看: https://developer.qiniu.com/kodo/1671/region-endpoint-fq
   region: z2
+
+# 本地上传
+upload:
+
+# 上传的目录名(所有上传的资源、静态资源都在 public 目录下)
+  dirname: uploads
+
+# 最大字节数 / b(非必填项，默认 10MB)
+  maxSize: 10484760
+
+# 最大上传数量 取值限制在 1 - 20 之间(非必填项，默认 10)
+  limit: 10
+
+# (非必填项，默认接收所有文件类型) 接收类型例如：[image, jpeg, png, jpg, gif, svg, tif, webp, mp4, mp3, xls, xlsx, doc, dot, wps, docx, pdf, ppt, pptx]
+  accept: [image, jpeg, png, jpg, gif, svg, tif, webp, mp4, mp3, xls, xlsx, doc, dot, wps, docx, pdf, ppt, pptx]
