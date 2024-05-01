@@ -1,9 +1,19 @@
 {
-  "moduleFileExtensions": ["js", "json", "ts"],
+  "moduleFileExtensions": [
+    "js",
+    "json",
+    "ts"
+  ],
   "rootDir": ".",
   "testEnvironment": "node",
   "testRegex": ".e2e-spec.ts$",
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "moduleNameMapper": {
+    "@nest-oss/qiniu/(.*)": "<rootDir>/../libs/qiniu/src/$1",
+    "@nest-oss/qiniu": "<rootDir>/../libs/qiniu/src",
+    "@nest-oss/ali/(.*)": "<rootDir>/../libs/ali/src/$1",
+    "@nest-oss/ali": "<rootDir>/../libs/ali/src"
   }
 }
