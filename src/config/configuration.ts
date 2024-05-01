@@ -1,5 +1,4 @@
 import { join } from 'path'
-import { ConfigModuleOptions } from '@nestjs/config'
 import { readFileSync } from 'fs'
 import * as yaml from 'js-yaml'
 
@@ -26,12 +25,3 @@ export const load = () => {
  * `configuration`
  */
 export const configuration: Configuration = load()
-
-/**
- * `config` 模块配置项
- */
-export const configModuleOptions: ConfigModuleOptions = {
-	isGlobal: true,
-	load: [load],
-	cache: true
-}
