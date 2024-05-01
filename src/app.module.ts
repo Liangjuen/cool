@@ -9,6 +9,7 @@ import { AuthModule } from '@/modules/auth/auth.module'
 import { LoggerMiddleware } from '@/middleware'
 import { AuthGuard } from '@/guard'
 import { RoleCacheModule } from '@/modules/base/roles/cache'
+import { UploadModule } from '@/modules/upload/upload.module'
 
 @Module({
 	imports: [
@@ -17,6 +18,7 @@ import { RoleCacheModule } from '@/modules/base/roles/cache'
 		JwtModule,
 		EventEmitterModule,
 		AuthModule,
+		UploadModule,
 		BaseModule,
 		RoleCacheModule
 	],
