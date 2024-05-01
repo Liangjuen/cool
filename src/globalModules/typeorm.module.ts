@@ -1,9 +1,12 @@
 import { ConfigService } from '@nestjs/config'
-import { TypeOrmModule } from '@nestjs/typeorm'
-import ConfigModule from './config.module'
+import { TypeOrmModule as TOM } from '@nestjs/typeorm'
+import { ConfigModule } from './config.module'
 import { isProd } from '@/config'
 
-export default TypeOrmModule.forRootAsync({
+/**
+ * typeorm 模块
+ */
+export const TypeOrmModule = TOM.forRootAsync({
 	imports: [ConfigModule],
 	inject: [ConfigService],
 	useFactory: (configService: ConfigService) => ({

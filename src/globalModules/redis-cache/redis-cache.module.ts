@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { Transport, ClientProxyFactory } from '@nestjs/microservices'
 import { Redis } from 'ioredis'
-import ConfigModule from '../config.module'
+import { ConfigModule } from '../config.module'
 import { RedisCacheService } from './redis-cache.service'
 
 @Module({

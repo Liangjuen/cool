@@ -1,11 +1,11 @@
 import { ConfigService } from '@nestjs/config'
-import { JwtModule } from '@nestjs/jwt'
-import ConfigModule from './config.module'
+import { JwtModule as JWTM } from '@nestjs/jwt'
+import { ConfigModule } from './config.module'
 
 /**
  * JWT模块
  */
-export default JwtModule.registerAsync({
+export const JwtModule = JWTM.registerAsync({
 	imports: [ConfigModule],
 	useFactory: async (configService: ConfigService) => {
 		const accessToken = configService.get<ENV.AccessToken>('accessToken')

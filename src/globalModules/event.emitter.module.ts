@@ -1,6 +1,6 @@
-import { EventEmitterModule } from '@nestjs/event-emitter'
+import { EventEmitterModule as EEM } from '@nestjs/event-emitter'
 
-export default EventEmitterModule.forRoot({
+export const EventEmitterModule = EEM.forRoot({
 	// 将此设置为“true”以使用通配符
 	wildcard: false,
 	// 用于分隔名称空间的分隔符
