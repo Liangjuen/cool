@@ -57,6 +57,16 @@ declare namespace ENV {
 		pass: string
 	}
 
+	enum FileUploadMode {
+		Cloud = 'cloud',
+		Local = 'local'
+	}
+
+	interface FileUpload {
+		mode: FileUploadMode
+		domain: string
+	}
+
 	interface Qiniu {
 		accessKey: string
 		secretKey: string
@@ -64,5 +74,12 @@ declare namespace ENV {
 		region: string
 		bucket: string
 		uploadUrl: string
+	}
+
+	interface Upload {
+		dirname: string
+		accept?: string[]
+		maxSize?: number
+		limit?: number
 	}
 }

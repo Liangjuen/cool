@@ -9,6 +9,8 @@ import { Database } from './database.dto'
 import { Mailer } from './mailer.dto'
 import { Qiniu } from './qiniu.dto'
 import { Redis } from './redis.dto'
+import { Upload } from './upload.dto'
+import { FileUpload } from './file.dto'
 
 enum Environment {
 	Development = 'development',
@@ -25,23 +27,34 @@ export class EnvironmentVariables {
 	@IsString()
 	authorized: string
 
+	@IsNotEmpty()
 	@ValidateNested()
 	database: Database
 
+	@IsNotEmpty()
 	@ValidateNested()
 	app: App
 
+	@IsNotEmpty()
 	@ValidateNested()
 	accessToken: AccessToken
 
+	@IsNotEmpty()
 	@ValidateNested()
 	redis: Redis
 
 	@ValidateNested()
 	mailer: Mailer
 
+	@IsNotEmpty()
+	@ValidateNested()
+	file: FileUpload
+
 	@ValidateNested()
 	qiniu: Qiniu
+
+	@ValidateNested()
+	upload: Upload
 }
 
 /**
@@ -60,7 +73,7 @@ export const validate = (config: Record<string, any>) => {
 	if (errors.length > 0) {
 		// 打印错误节点
 		errors.forEach(e => {
-			logger.error(`配置项 [${e.property}] 无效配置`)
+			logger.error(`配置项 [${e.property}] 无效配置，请查看 template.yaml 配置说明`)
 		})
 
 		logger.warn(`请检查 ${name}.yaml 文件配置`)
