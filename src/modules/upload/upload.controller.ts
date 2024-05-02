@@ -19,14 +19,17 @@ import { UPLOAD_LIMIT } from '@/common/constants'
 export class UploadController {
 	constructor(private readonly uploadService: UploadService) {}
 
+	@Get('upload/mode')
+	getUploadMode() {
+		return this.uploadService.getUploadMode()
+	}
+
 	@Get('upload/qiniu/authorization')
-	@Public()
 	uploadQiniuAuthorization() {
 		return this.uploadService.uploadQiniuAuthorization()
 	}
 
 	@Post('upload')
-	@Public()
 	@UseGuards(LocalUploadGuard)
 	@UseInterceptors(FileInterceptor('file', { storage: uploadStorage() }))
 	localUploadFile(@UploadedFile() file: Express.Multer.File) {
@@ -34,7 +37,6 @@ export class UploadController {
 	}
 
 	@Post('uploads')
-	@Public()
 	@UseInterceptors(FilesInterceptor('file', undefined, { storage: uploadStorage() }))
 	@UseGuards(LocalUploadGuard)
 	localUploadFiles(@UploadedFiles() files: Array<Express.Multer.File>) {

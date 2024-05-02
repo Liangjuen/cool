@@ -7,22 +7,28 @@ import { UPLOAD_DIRNAME } from '@/common/constants'
 export class UploadService {
 	constructor(
 		private readonly configService: ConfigService,
-		private readonly qiniuOSSService: QiniuOSSService
+		private readonly qiniu: QiniuOSSService
 	) {}
+
+	getUploadMode() {
+		const { mode } = this.configService.get<ENV.FileUpload>('file')
+
+		return { mode }
+	}
 
 	/**
 	 * 获取上传七牛云授权
 	 * @returns
 	 */
 	uploadQiniuAuthorization() {
-		const mac = this.qiniuOSSService.mac()
+		const mac = this.qiniu.mac()
 
 		// 创建上传策略
-		const putPolicy = this.qiniuOSSService.createPutPolicy({
-			scope: this.qiniuOSSService.options.bucket
+		const putPolicy = this.qiniu.createPutPolicy({
+			scope: this.qiniu.options.bucket
 		})
 
-		const { domain, region } = this.qiniuOSSService.options
+		const { domain, region } = this.qiniu.options
 
 		// 创建上传凭证
 		return {
