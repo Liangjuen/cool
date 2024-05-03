@@ -10,6 +10,7 @@ import { LoggerMiddleware } from '@/middleware'
 import { AuthGuard } from '@/guard'
 import { RoleCacheModule } from '@/modules/base/roles/cache'
 import { UploadModule } from '@/modules/upload/upload.module'
+import { MailerModule } from '@/modules/mailer/mailer.module'
 
 @Module({
 	imports: [
@@ -19,6 +20,7 @@ import { UploadModule } from '@/modules/upload/upload.module'
 		EventEmitterModule,
 		AuthModule,
 		UploadModule,
+		MailerModule,
 		BaseModule,
 		RoleCacheModule
 	],
