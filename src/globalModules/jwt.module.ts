@@ -19,5 +19,6 @@ export const JwtModule = JWTM.registerAsync({
 			}
 		}
 	},
-	inject: [ConfigService]
+	inject: [ConfigService],
+	global: true
 })
