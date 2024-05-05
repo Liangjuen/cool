@@ -41,7 +41,7 @@ export abstract class CoolCRUDService<T extends BaseEntity> {
 			})
 		)
 
-		if (dto.id) builder.andWhere({ id: dto.id })
+		if (dto.id) builder.andWhere('id !=:id', { id: dto.id })
 
 		const findOne = await builder.getOne()
 
