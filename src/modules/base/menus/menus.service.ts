@@ -32,7 +32,7 @@ export class MenusService {
 		keyword,
 		status,
 		type
-	}: QueryMenusDto): Promise<API.PagingQueryResult<Menu>> {
+	}: QueryMenusDto): Promise<API.PaginateResponse<Menu>> {
 		const skip = (page - 1) * size
 		const query = this.menuRepository.createQueryBuilder('menu')
 

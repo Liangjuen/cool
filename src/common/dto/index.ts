@@ -1,1 +1,1 @@
-export { PagingQueryDto } from './paging-query.dto'
+export { PaginateDto } from './paging-query.dto'

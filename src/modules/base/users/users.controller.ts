@@ -33,8 +33,8 @@ export class UserController {
 
 	@Get()
 	@Permission(PERM.Base.UserList)
-	findAll(@Body() pagingQuery: QueryUsersDto) {
-		return this.userService.findAll(pagingQuery)
+	findAll(@Body() Paginate: QueryUsersDto) {
+		return this.userService.findAll(Paginate)
 	}
 
 	@Get(':id')

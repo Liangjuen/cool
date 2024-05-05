@@ -57,7 +57,7 @@ export class UsersService {
 		departmentIds,
 		status,
 		gender
-	}: QueryUsersDto): Promise<API.PagingQueryResult<User>> {
+	}: QueryUsersDto): Promise<API.PaginateResponse<User>> {
 		const skip = (page - 1) * size
 		const query = this.userRepository.createQueryBuilder('user')
 

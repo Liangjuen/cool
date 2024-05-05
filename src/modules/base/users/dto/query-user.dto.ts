@@ -1,9 +1,9 @@
 import { IsOptional, IsArray, IsEnum, IsInt } from 'class-validator'
 import { PartialType } from '@nestjs/mapped-types'
-import { PagingQueryDto } from '@/common/dto'
+import { PaginateDto } from '@/common/dto'
 import { Status, Gender } from '@/common/enums'
 
-export class QueryUsersDto extends PartialType(PagingQueryDto) {
+export class QueryUsersDto extends PartialType(PaginateDto) {
 	@IsOptional()
 	@IsInt({ each: true })
 	departmentIds?: number[]

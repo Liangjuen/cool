@@ -1,13 +1,16 @@
 import { IsInt, Min, Max, IsString, IsOptional, IsIn } from 'class-validator'
+import { Transform } from 'class-transformer'
 import { IsNaturalNumber } from '@/common/validation'
 
-export class PagingQueryDto implements API.PagingQuery {
+export class PaginateDto implements API.Pagination {
 	@IsOptional()
+	@Transform(({ value }) => parseInt(value, 10))
 	@IsInt()
 	@Min(1, { message: 'page 需为正整数' })
 	page?: number
 
 	@IsOptional()
+	@Transform(({ value }) => parseInt(value, 10))
 	@IsNaturalNumber({ message: 'size 需为自然数' })
 	@Max(500, { message: 'size 不得超过最大限制 500' })
 	size?: number

@@ -33,8 +33,8 @@ export class MenusController {
 
 	@Get()
 	@Permission(PERM.Base.MenuList)
-	findAll(@Body() pagingQuery: QueryMenusDto) {
-		return this.menusService.findAll(pagingQuery)
+	findAll(@Body() Paginate: QueryMenusDto) {
+		return this.menusService.findAll(Paginate)
 	}
 
 	@Get(':id')

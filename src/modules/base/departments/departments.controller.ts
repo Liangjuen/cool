@@ -13,7 +13,7 @@ import {
 import { PermissionGuard } from '@/guard'
 import { Permission } from '@/common/decorator'
 import { DepartmentsService } from './departments.service'
-import { PagingQueryDto } from '@/common/dto'
+import { PaginateDto } from '@/common/dto'
 import { ParseIntArrayPipe } from '@/common/pipe'
 import { CreateDepartmentDto } from './dto/create-department.dto'
 import { UpdateDepartmentDto } from './dto/update-department.dto'
@@ -32,8 +32,8 @@ export class DepartmentsController {
 	}
 
 	@Get()
-	findAll(@Body() pagingQuery: PagingQueryDto) {
-		return this.departmentService.findAll(pagingQuery)
+	findAll(@Body() Paginate: PaginateDto) {
+		return this.departmentService.findAll(Paginate)
 	}
 
 	@Get(':id')

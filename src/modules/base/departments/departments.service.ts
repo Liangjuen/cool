@@ -2,7 +2,7 @@ import { Injectable, BadRequestException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository, Brackets } from 'typeorm'
 import { Department } from './entities/department.entity'
-import { PagingQueryDto } from '@/common/dto'
+import { PaginateDto } from '@/common/dto'
 import { CreateDepartmentDto } from './dto/create-department.dto'
 import { UpdateDepartmentDto } from './dto/update-department.dto'
 
@@ -32,7 +32,7 @@ export class DepartmentsService {
 		sort = 'createdAt',
 		order = 'DESC',
 		keyword
-	}: PagingQueryDto): Promise<API.PagingQueryResult<Department>> {
+	}: PaginateDto): Promise<API.PaginateResponse<Department>> {
 		const skip = (page - 1) * size
 		const query = this.departRepository.createQueryBuilder('depart')
 
