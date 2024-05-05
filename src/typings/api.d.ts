@@ -1,8 +1,17 @@
 declare namespace API {
 	/**
+	 * 返回结构
+	 */
+	interface Response<T> {
+		data: T
+		code: number
+		message: string
+	}
+
+	/**
 	 * 分页查询条件
 	 */
-	interface PagingQuery {
+	interface Pagination {
 		/**
 		 * 当前页面
 		 */
@@ -32,7 +41,7 @@ declare namespace API {
 	/**
 	 * 分页查询结果
 	 */
-	interface PagingQueryResult<T = any> {
+	interface PaginateResponse<T = any> {
 		/**
 		 * 当前页面
 		 */
