@@ -10,15 +10,4 @@ export class DictTypeService extends CoolCRUDService<DictType> {
 	constructor(@InjectRepository(DictType) private readonly repo: Repository<DictType>) {
 		super(repo)
 	}
-
-	async create(createDictDto: CreateDictTypeDto) {
-		await this.uniqueCheck(createDictDto, {
-			uniques: ['name', 'key'],
-			alias: { name: '字典类型名称', key: '字典类型 key' }
-		})
-
-		const type = this.repo.create(createDictDto)
-
-		return await this.repo.save(type)
-	}
 }
