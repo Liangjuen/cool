@@ -11,6 +11,7 @@ import { AuthGuard } from '@/guard'
 import { RoleCacheModule } from '@/modules/base/roles/cache'
 import { UploadModule } from '@/modules/upload/upload.module'
 import { MailerModule } from '@/modules/mailer/mailer.module'
+import { DictTypeModule } from '@/modules/dicts/types.module'
 
 @Module({
 	imports: [
@@ -22,7 +23,8 @@ import { MailerModule } from '@/modules/mailer/mailer.module'
 		UploadModule,
 		MailerModule,
 		BaseModule,
-		RoleCacheModule
+		RoleCacheModule,
+		DictTypeModule
 	],
 	controllers: [AppController],
 	providers: [

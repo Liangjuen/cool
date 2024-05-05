@@ -1,8 +1,9 @@
 import { list } from '@/common/utils/enum'
-import { Base } from './base.permission'
+import { Base, Dict } from './base.permission'
 
 export const PERM = {
-	Base
+	Base,
+	Dict
 }
 
 const permToList = (enms: Record<string, unknown>[]) => {
