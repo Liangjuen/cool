@@ -10,7 +10,7 @@ import {
 import { BaseEntity } from '@/common/entity'
 
 @Injectable()
-export abstract class CoolCRUDService<T extends BaseEntity> {
+export abstract class CoolCRUDService<T> {
 	protected repositroy: Repository<T>
 
 	constructor(readonly repository: Repository<T>) {}
