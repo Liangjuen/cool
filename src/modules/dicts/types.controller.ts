@@ -60,7 +60,7 @@ export class DictTypeController {
 		})
 	}
 
-	@Delete('ids')
+	@Delete(':ids')
 	@ApiOperation({ summary: '删除字典类型' })
 	@Permission(PERM.Dict.TypeRemove)
 	@HttpCode(HttpStatus.NO_CONTENT)

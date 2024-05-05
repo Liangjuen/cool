@@ -1,0 +1,6 @@
+export * from './dicts.controller'
+export * from './dicts.module'
+export * from './dicts.service'
+export * from './types.controller'
+export * from './types.module'
+export * from './types.service'

@@ -1,26 +1,12 @@
 import { Injectable } from '@nestjs/common'
-import { CreateDictDto } from './dto/create-dict.dto'
-import { UpdateDictDto } from './dto/update-dict.dto'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository } from 'typeorm'
+import { CoolCRUDService } from '@/common/crud'
+import { Dict } from './entities/dict.entity'
 
 @Injectable()
-export class DictsService {
-	create(createDictDto: CreateDictDto) {
-		return 'This action adds a new dict'
-	}
-
-	findAll() {
-		return `This action returns all dicts`
-	}
-
-	findOne(id: number) {
-		return `This action returns a #${id} dict`
-	}
-
-	update(id: number, updateDictDto: UpdateDictDto) {
-		return `This action updates a #${id} dict`
-	}
-
-	remove(id: number) {
-		return `This action removes a #${id} dict`
+export class DictsService extends CoolCRUDService<Dict> {
+	constructor(@InjectRepository(Dict) private readonly repo: Repository<Dict>) {
+		super(repo)
 	}
 }

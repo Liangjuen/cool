@@ -4,14 +4,12 @@ import { APP_GUARD } from '@nestjs/core'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { ConfigModule, TypeOrmModule, JwtModule, EventEmitterModule } from '@/globalModules'
-import { BaseModule } from '@/modules/base'
-import { AuthModule } from '@/modules/auth/auth.module'
+import { ApiModule } from '@/modules'
 import { LoggerMiddleware } from '@/middleware'
 import { AuthGuard } from '@/guard'
 import { RoleCacheModule } from '@/modules/base/roles/cache'
 import { UploadModule } from '@/modules/upload/upload.module'
 import { MailerModule } from '@/modules/mailer/mailer.module'
-import { DictTypeModule } from '@/modules/dicts/types.module'
 
 @Module({
 	imports: [
@@ -19,12 +17,10 @@ import { DictTypeModule } from '@/modules/dicts/types.module'
 		TypeOrmModule,
 		JwtModule,
 		EventEmitterModule,
-		AuthModule,
 		UploadModule,
 		MailerModule,
-		BaseModule,
-		RoleCacheModule,
-		DictTypeModule
+		ApiModule,
+		RoleCacheModule
 	],
 	controllers: [AppController],
 	providers: [
@@ -37,7 +33,7 @@ import { DictTypeModule } from '@/modules/dicts/types.module'
 	exports: [RoleCacheModule]
 })
 export class AppModule implements NestModule {
-	constructor(private dataSource: DataSource) {}
+	constructor() {}
 	configure(consumer: MiddlewareConsumer) {
 		consumer.apply(LoggerMiddleware).forRoutes({ path: '*', method: RequestMethod.ALL })
 	}

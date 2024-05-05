@@ -1,34 +1,71 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
-import { DictsService } from './dicts.service'
-import { CreateDictDto } from './dto/create-dict.dto'
-import { UpdateDictDto } from './dto/update-dict.dto'
+import {
+	Controller,
+	Get,
+	Put,
+	Post,
+	Body,
+	Query,
+	Param,
+	Delete,
+	ParseIntPipe,
+	UseGuards,
+	HttpCode,
+	HttpStatus
+} from '@nestjs/common'
+import { ApiTags, ApiOperation } from '@nestjs/swagger'
 
+import { PERM } from '@/common/permissions'
+import { ParseIntArrayPipe } from '@/common/pipe'
+import { PermissionGuard } from '@/guard'
+import { Permission } from '@/common/decorator'
+import { DictsService } from './dicts.service'
+import { CreateDictDto, UpdateDictDto, PaginateDto } from './dto'
+
+@ApiTags('字典')
+@UseGuards(PermissionGuard)
 @Controller('dicts')
 export class DictsController {
-	constructor(private readonly dictsService: DictsService) {}
+	constructor(private readonly service: DictsService) {}
 
 	@Post()
+	@ApiOperation({ summary: '创建字典' })
+	@Permission(PERM.Dict.List)
 	create(@Body() createDictDto: CreateDictDto) {
-		return this.dictsService.create(createDictDto)
+		return this.service.create(createDictDto, {
+			uniques: ['name'],
+			alias: { name: '字典名称' }
+		})
 	}
 
 	@Get()
-	findAll() {
-		return this.dictsService.findAll()
+	@ApiOperation({ summary: '查询字典列表' })
+	@Permission(PERM.Dict.List)
+	findAll(@Query() pagination: PaginateDto) {
+		return this.service.findAll(pagination)
 	}
 
 	@Get(':id')
-	findOne(@Param('id') id: string) {
-		return this.dictsService.findOne(+id)
+	@ApiOperation({ summary: '查询字典' })
+	@Permission(PERM.Dict.Get)
+	findOne(@Param('id', ParseIntPipe) id: number) {
+		return this.service.findOne(id)
 	}
 
-	@Patch(':id')
-	update(@Param('id') id: string, @Body() updateDictDto: UpdateDictDto) {
-		return this.dictsService.update(+id, updateDictDto)
+	@Put(':id')
+	@ApiOperation({ summary: '更新字典' })
+	@Permission(PERM.Dict.Update)
+	update(@Param('id', ParseIntPipe) id: number, @Body() updateDto: UpdateDictDto) {
+		return this.service.update(id, updateDto, {
+			uniques: ['name'],
+			alias: { name: '字典名称' }
+		})
 	}
 
-	@Delete(':id')
-	remove(@Param('id') id: string) {
-		return this.dictsService.remove(+id)
+	@Delete(':ids')
+	@ApiOperation({ summary: '删除字典' })
+	@Permission(PERM.Dict.Remove)
+	@HttpCode(HttpStatus.NO_CONTENT)
+	delete(@Param('ids', ParseIntArrayPipe) ids: number[]) {
+		this.service.delete(ids)
 	}
 }
