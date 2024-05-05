@@ -12,7 +12,7 @@ export class PaginateDto implements API.Pagination {
 	@IsOptional()
 	@Transform(({ value }) => parseInt(value, 10))
 	@IsNaturalNumber({ message: 'size 需为自然数' })
-	@Max(500, { message: 'size 不得超过最大限制 500' })
+	@Max(100, { message: 'size 不得超过最大限制 100' })
 	size?: number
 
 	@IsString()
