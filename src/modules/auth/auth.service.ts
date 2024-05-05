@@ -4,7 +4,6 @@ import { JwtService } from '@nestjs/jwt'
 import { UsersService } from '../base/users/users.service'
 import { User } from '@/modules/base/users/entities/user.entity'
 import { MenusService } from '../base/menus'
-import { PermsService } from '../base/perms'
 
 /**
  * [身份认证](http://nestjs.inode.club/security/authentication)

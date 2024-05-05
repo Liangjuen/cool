@@ -17,6 +17,7 @@ import { RoleController, RoleModule, RoleService } from './roles'
 		UserController,
 		MenusController,
 		PermsController
-	]
+	],
+	exports: [UsersService, MenusService]
 })
 export class BaseModule {}

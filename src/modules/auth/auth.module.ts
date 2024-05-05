@@ -16,7 +16,7 @@ import { RoleModule, RoleService } from '../base/roles'
  *
  */
 @Module({
-	imports: [ConfigModule, JwtModule, UsersModule, MenusModule, RoleModule],
+	imports: [UsersModule, MenusModule, RoleModule],
 	providers: [AuthService, UsersService, MenusService, RoleService],
 	controllers: [AuthController],
 	exports: [AuthService]
