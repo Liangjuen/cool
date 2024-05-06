@@ -22,7 +22,7 @@ import { ApiTags, ApiOperation } from '@nestjs/swagger'
 
 @UseGuards(PermissionGuard)
 @ApiTags('字典类型')
-@Controller('dictTypes')
+@Controller('dict-types')
 export class DictTypeController {
 	constructor(public service: DictTypeService) {}
 
