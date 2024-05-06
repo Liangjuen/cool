@@ -4,3 +4,5 @@ declare interface Payload {
 	id: number
 	[key: string]: any
 }
+
+declare const USERPAYLOAD = 'user'

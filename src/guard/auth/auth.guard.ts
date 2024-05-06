@@ -6,6 +6,9 @@ import { Request } from 'express'
 
 import { IS_PUBLIC_KEY } from '@/common/constants'
 
+/**
+ * 身份认证守卫
+ */
 @Injectable()
 export class AuthGuard implements CanActivate {
 	constructor(
@@ -21,25 +24,23 @@ export class AuthGuard implements CanActivate {
 		])
 
 		// 是公开接口标识 放行
-		if (isPublic) {
-			return true
-		}
+		if (isPublic) return true
 
 		// 校验token
-		const request = context.switchToHttp().getRequest()
+		const request = context.switchToHttp().getRequest<Request>()
 		const token = this.extractTokenFromHeader(request)
 		if (!token) {
 			throw new UnauthorizedException()
 		}
 
 		try {
-			const payload = await this.jwtService.verifyAsync(token, {
+			const payload = await this.jwtService.verifyAsync<Payload>(token, {
 				secret: this.configService.get<ENV.AccessToken>('accessToken').secret
 			})
 			// 💡 挂载 payload 以便后续访问
-			request['user'] = payload
+			request[USERPAYLOAD] = payload
 		} catch {
-			throw new UnauthorizedException()
+			throw new UnauthorizedException('身份认证未通过')
 		}
 
 		return true
