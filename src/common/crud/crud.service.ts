@@ -18,15 +18,18 @@ export abstract class CoolCRUDService<T> {
 	/**
 	 * 默认查询条件
 	 */
-	withDefaultPagination: Pagination = {
+	readonly withDefaultPagination: Pagination = {
 		page: 1,
 		size: 10,
 		sort: 'createdAt',
 		order: 'DESC'
 	}
 
-	uniqueCheck(dto: any, options?: UniqueCheckOptions<T>): Promise<boolean>
-
+	/**
+	 * 在创建或更新前验证字段值的唯一性，可以在子类中重写实现，在创建/更新时自动执行，如果未通过则会抛出 BadRequestException 错误，也可以直接在实现中抛出错误，定义错误信息
+	 * @param dto
+	 * @param options 校验配置
+	 */
 	async uniqueCheck(dto: any, options?: UniqueCheckOptions<T>) {
 		if (!options || !options.uniques) return true
 		const [first, ...rest] = options.uniques
@@ -65,7 +68,7 @@ export abstract class CoolCRUDService<T> {
 	 * @param options 查询配置项
 	 * @returns 创建一个已构建基础SQL查询(分页、排序、模糊查询)的查询构建器
 	 */
-	createPaginateBuilder<P extends Pagination>(
+	protected createPaginateBuilder<P extends Pagination>(
 		pagination?: P,
 		options?: BasePaginateOptions<T>
 	): SelectQueryBuilder<T> {
