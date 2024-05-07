@@ -1,21 +1,14 @@
 import { Module } from '@nestjs/common'
 import { AuthController, AuthModule, AuthService } from './auth'
 import { BaseModule } from './base'
-import {
-	DictTypeController,
-	DictTypeModule,
-	DictTypeService,
-	DictsController,
-	DictsModule,
-	DictsService
-} from './dicts'
+import { DataModule } from './data'
 
 /**
  *  API 模块
  */
 @Module({
-	imports: [AuthModule, BaseModule, DictTypeModule, DictsModule],
-	providers: [AuthService, DictTypeService, DictsService],
-	controllers: [AuthController, DictTypeController, DictsController]
+	imports: [AuthModule, BaseModule, DataModule],
+	providers: [AuthService],
+	controllers: [AuthController]
 })
 export class ApiModule {}
