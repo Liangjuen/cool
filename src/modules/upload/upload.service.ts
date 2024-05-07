@@ -80,14 +80,15 @@ export class UploadService {
 
 		const storages = files.map(file => {
 			const { originalname, filename, size } = file
+			const ext = extname(originalname).replace('.', '')
 			return this.storageRepo.create({
 				name: originalname,
 				path: filename,
 				url: `${domain}/${dirname || UPLOAD_DIRNAME}/${filename}`,
 				size: formatBytes(size),
-				ext: extname(originalname).replace('.', ''),
+				ext,
 				userId: user.id,
-				type: getFileType(extname(originalname)),
+				type: getFileType(ext),
 				cateId: cateId || null
 			})
 		})
