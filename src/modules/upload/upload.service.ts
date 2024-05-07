@@ -1,14 +1,26 @@
+import { extname } from 'node:path'
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Repository } from 'typeorm'
 import { QiniuOSSService } from 'nest-qiniu-oss'
 import { UPLOAD_DIRNAME } from '@/common/constants'
+import { Storage } from '@/modules/data/storage'
+import { getFileType, formatBytes } from '@/common/utils'
+import { UploadSaveOptions } from './upload.interface'
 
 @Injectable()
 export class UploadService {
+	config: ENV.FileUpload
+	uploadConfig: ENV.Upload
 	constructor(
 		private readonly configService: ConfigService,
-		private readonly qiniu: QiniuOSSService
-	) {}
+		private readonly qiniu: QiniuOSSService,
+		@InjectRepository(Storage) private readonly storageRepo: Repository<Storage>
+	) {
+		this.config = configService.get<ENV.FileUpload>('file')
+		this.uploadConfig = this.configService.get<ENV.Upload>('upload')
+	}
 
 	getUploadMode() {
 		const { mode } = this.configService.get<ENV.FileUpload>('file')
@@ -43,19 +55,9 @@ export class UploadService {
 	 * @param file 文件
 	 * @returns
 	 */
-	getUploadFileInfo(file: Express.Multer.File) {
-		const { mode, domain } = this.configService.get<ENV.FileUpload>('file')
-		const { dirname } = this.configService.get<ENV.Upload>('upload')
-
-		const { fieldname, filename, size, mimetype } = file
-		const data = {
-			fieldname,
-			size,
-			mimetype,
-			mode,
-			url: `${domain}/${dirname || UPLOAD_DIRNAME}/${filename}`
-		}
-		return data
+	async saveFile(file: Express.Multer.File, options: UploadSaveOptions) {
+		const result = await this.saveFileMeta([file], options)
+		return result[0]
 	}
 
 	/**
@@ -63,9 +65,37 @@ export class UploadService {
 	 * @param files
 	 * @returns
 	 */
-	getUploadFilesInfo(files: Express.Multer.File[]) {
-		return files.map(file => {
-			return this.getUploadFileInfo(file)
+	async saveFiles(files: Express.Multer.File[], options: UploadSaveOptions) {
+		return await this.saveFileMeta(files, options)
+	}
+
+	/**
+	 * 保存上传信息
+	 * @param files
+	 */
+	async saveFileMeta(files: Express.Multer.File[], options: { user: Payload; cateId?: number }) {
+		const { domain } = this.config
+		const { dirname } = this.uploadConfig
+		const { user, cateId } = options
+
+		const storages = files.map(file => {
+			const { originalname, filename, size } = file
+			return this.storageRepo.create({
+				name: originalname,
+				path: filename,
+				url: `${domain}/${dirname || UPLOAD_DIRNAME}/${filename}`,
+				size: formatBytes(size),
+				ext: extname(originalname).replace('.', ''),
+				userId: user.id,
+				type: getFileType(extname(originalname)),
+				cateId: cateId || null
+			})
 		})
+
+		const result = await this.storageRepo.save(storages)
+		return result.map(r => ({
+			url: r.url,
+			mode: this.config.mode
+		}))
 	}
 }

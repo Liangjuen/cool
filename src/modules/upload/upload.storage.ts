@@ -5,6 +5,7 @@ import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer
 import * as moment from 'moment'
 import { UPLOAD_DIRNAME } from '@/common/constants'
 import { configuration } from '@/config'
+import { getFileType } from '@/common/utils'
 
 /**
  *  本地上传的存储引擎
@@ -23,13 +24,16 @@ export const uploadStorage = (): MulterOptions['storage'] => {
 		filename: (_, file, callback) => {
 			// 创建上传文件夹名
 			const date = moment().format('YYYYMMDD')
-			const filename = `${Date.now() + extname(file.originalname)}`
+
+			// const filename = `${Date.now() + extname(file.originalname)}`
+			const type = getFileType(extname(file.originalname).slice(1))
+			const filename = `${Date.now() + '_' + file.originalname}`
 
 			// 创建工作空间文件夹
 			!existsSync(join(destination, date)) &&
-				mkdirSync(join(destination, date), { recursive: true })
+				mkdirSync(join(destination, type, date), { recursive: true })
 
-			callback(null, `${date}/${filename}`)
+			callback(null, `${type}/${date}/${filename}`)
 		}
 	})
 }

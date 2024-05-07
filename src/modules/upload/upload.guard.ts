@@ -16,7 +16,7 @@ export class LocalUploadGuard implements CanActivate {
 	canActivate() {
 		const { mode } = this.configService.get<FileUpload>('file')
 		const flog = (mode as unknown as Mode) == Mode.Local
-		if (!flog) throw new BadRequestException('未开启本地上传配置，不能上传')
+		if (!flog) throw new BadRequestException('未开启本地上传配置，不能操作')
 		return flog
 	}
 }
