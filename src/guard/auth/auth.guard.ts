@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
 import { Request } from 'express'
 
-import { IS_PUBLIC_KEY } from '@/common/constants'
+import { IS_PUBLIC_KEY, USERPAYLOAD } from '@/common/constants'
 
 /**
  * 身份认证守卫
