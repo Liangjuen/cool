@@ -12,8 +12,8 @@ import {
 	HttpCode,
 	HttpStatus
 } from '@nestjs/common'
-import { DictTypeService } from './types.service'
-import { CreateDictTypeDto, UpdateDictTypeDto, PaginateDto } from './dto'
+import { DictTypeService } from '../services'
+import { CreateDictTypeDto, UpdateDictTypeDto, PaginateDto } from '../dto'
 import { ParseIntArrayPipe } from '@/common/pipe'
 import { PERM } from '@/common/permissions'
 import { Permission } from '@/common/decorator'

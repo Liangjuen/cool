@@ -18,8 +18,8 @@ import { PERM } from '@/common/permissions'
 import { ParseIntArrayPipe } from '@/common/pipe'
 import { PermissionGuard } from '@/guard'
 import { Permission } from '@/common/decorator'
-import { DictsService } from './dicts.service'
-import { CreateDictDto, UpdateDictDto, PaginateDto } from './dto'
+import { DictsService } from '../services'
+import { CreateDictDto, UpdateDictDto, PaginateDto } from '../dto'
 
 @ApiTags('字典')
 @UseGuards(PermissionGuard)

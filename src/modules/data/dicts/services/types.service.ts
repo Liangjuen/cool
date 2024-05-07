@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { DictType } from './entities/type.entity'
+import { DictType } from '../entities/type.entity'
 import { CoolCRUDService } from '@/common/crud'
 
 @Injectable()

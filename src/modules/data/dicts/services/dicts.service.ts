@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { CoolCRUDService } from '@/common/crud'
-import { Dict } from './entities/dict.entity'
+import { Dict } from '../entities/dict.entity'
 
 @Injectable()
 export class DictsService extends CoolCRUDService<Dict> {

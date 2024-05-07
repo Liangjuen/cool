@@ -1,0 +1,5 @@
+export * from './controllers'
+export * from './services'
+export * from './entities'
+export * from './dicts.module'
+export * from './dicts.module'
