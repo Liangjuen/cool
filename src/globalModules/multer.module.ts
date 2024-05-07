@@ -15,7 +15,8 @@ export const MulterModule = MM.registerAsync({
 			// 限制
 			limits: {
 				files: config.limit || UPLOAD_LIMIT,
-				fileSize: config.maxSize || UPLOAD_FILE_SIZE
+				fileSize: config.maxSize || UPLOAD_FILE_SIZE,
+				fieldNameSize: 50 // 文件名长度/字节
 			},
 			// 文件过滤
 			fileFilter(req, file, callback) {
