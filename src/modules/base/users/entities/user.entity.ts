@@ -4,8 +4,8 @@ import { Status, Gender, ROLE } from '@/common/enums'
 import * as bcrypt from 'bcrypt'
 
 @Entity({
-	name: 'users',
-	comment: '用户表'
+	name: 'base_sys_user',
+	comment: '系统用户表'
 })
 export class User extends BaseEntity {
 	@Index()
