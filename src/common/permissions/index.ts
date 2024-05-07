@@ -1,9 +1,12 @@
 import { list } from '@/common/utils/enum'
-import { Base, Dict } from './base.permission'
+import { Base, Upload } from './base.permission'
+import { Dict, Storage } from './data.permission'
 
 export const PERM = {
 	Base,
-	Dict
+	Dict,
+	Upload,
+	Storage
 }
 
 const permToList = (enms: Record<string, unknown>[]) => {
@@ -13,5 +16,8 @@ const permToList = (enms: Record<string, unknown>[]) => {
 	})
 	return perms
 }
-
-export const perms = () => permToList([Base])
+/**
+ * 返回注册的权限列表
+ * @returns
+ */
+export const perms = () => permToList([Base, Dict, Upload, Storage])

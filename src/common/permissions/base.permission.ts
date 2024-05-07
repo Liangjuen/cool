@@ -23,15 +23,8 @@ export enum Base {
 	PermsList = 'base:perms:list'
 }
 
-export enum Dict {
-	TypeList = 'dict:type:list',
-	TypeGet = 'dict:type:get',
-	TypeCreate = 'dict:type:create',
-	TypeUpdate = 'dict:type:update',
-	TypeRemove = 'dict:type:remove',
-	List = 'dict:list',
-	Get = 'dict:get',
-	Create = 'dict:create',
-	Update = 'dict:update',
-	Remove = 'dict:remove'
+export enum Upload {
+	Local = 'upload:loacal',
+	Mode = 'upload:mode',
+	QiniuAuth = 'upload:qiniu:auth'
 }
