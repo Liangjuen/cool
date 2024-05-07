@@ -18,16 +18,6 @@ export interface BasePaginateOptions<T> {
 	 * 模糊查询字段
 	 */
 	likes?: Columns<T>
-	/**
-	 * 在获取查询结果前追加自定义查询
-	 * @param builder 查询构建器
-	 * @returns
-	 */
-	append?: (
-		builder: SelectQueryBuilder<T>,
-		pagination: Pagination,
-		options: BasePaginateOptions<T>
-	) => void
 }
 
 /**
@@ -58,3 +48,9 @@ export interface CreateEntityOptions<T> extends UniqueCheckOptions<T> {}
  * 更新实体配置项
  */
 export interface UpdateEntityOptions<T> extends UniqueCheckOptions<T> {}
+
+export interface PaginationOptions extends Pick<API.Pagination, 'page' | 'size'> {}
+export interface BaseLikeQueryOptions<T> extends Pick<API.Pagination, 'keyword'> {
+	likes: Columns<T>
+}
+export interface OrderOptions extends Pick<API.Pagination, 'order' | 'sort'> {}

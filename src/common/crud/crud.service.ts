@@ -5,14 +5,16 @@ import {
 	BasePaginateOptions,
 	UniqueCheckOptions,
 	CreateEntityOptions,
-	UpdateEntityOptions
+	UpdateEntityOptions,
+	PaginationOptions,
+	BaseLikeQueryOptions
 } from './crud.interface'
 import { BaseEntity } from '@/common/entity'
 
+import { paginateBuilderHelper } from '@/common/helper'
+
 @Injectable()
 export abstract class CoolCRUDService<T> {
-	protected repositroy: Repository<T>
-
 	constructor(readonly repository: Repository<T>) {}
 
 	/**
@@ -63,47 +65,48 @@ export abstract class CoolCRUDService<T> {
 	}
 
 	/**
-	 * 构建分页查询
-	 * @param pagination 查询条件
-	 * @param options 查询配置项
-	 * @returns 创建一个已构建基础SQL查询(分页、排序、模糊查询)的查询构建器
+	 * 构建模糊查询语句
+	 * @param options
+	 * @param queryBuilder
+	 * @returns
 	 */
-	protected createPaginateBuilder<P extends Pagination>(
-		pagination?: P,
-		options?: BasePaginateOptions<T>
+	protected baseLikeBuilder(
+		options?: BaseLikeQueryOptions<T>,
+		queryBuilder?: SelectQueryBuilder<T>
 	): SelectQueryBuilder<T> {
-		const { sort, order, keyword, page, size } = { ...this.withDefaultPagination, ...pagination }
+		const builder = queryBuilder ? queryBuilder : this.repository.createQueryBuilder()
 
-		const skip = (page - 1) * size
+		const { keyword, likes } = options || {}
 
-		// 创建查询器
-		const builder = this.repository.createQueryBuilder()
+		// 构建模糊查询语句
+		if (keyword && likes && likes.length) {
+			const [first, ...rest] = likes
 
-		if (options) {
-			const { likes, append } = options
+			builder.where({ [first]: Like(`%${keyword}%`) })
 
-			// 构建模糊查询
-			if (keyword && likes && likes.length) {
-				const [first, ...rest] = likes
-
-				builder.where({ [first]: Like(`%${keyword}%`) })
-
-				rest.forEach(field => {
-					builder.orWhere({ [field]: Like(`%${keyword}%`) })
-				})
-			}
-
-			// 追加自定义查询
-			if (append) options.append(builder, pagination, options)
+			rest.forEach(field => {
+				builder.orWhere({ [field]: Like(`%${keyword}%`) })
+			})
 		}
 
-		// 构建排序查询
-		builder.addOrderBy(sort, order)
-
-		// 分页
-		builder.skip(skip).take(size)
-
 		return builder
+	}
+
+	/**
+	 * 分页查询 返回结果
+	 * @param queryBuilder
+	 * @param options
+	 * @returns
+	 */
+	protected async paginateBuilder(
+		queryBuilder?: SelectQueryBuilder<T>,
+		options?: PaginationOptions
+	): Promise<API.PaginateResponse<T>> {
+		const query = queryBuilder ? queryBuilder : this.repository.createQueryBuilder()
+
+		const { size, page } = { ...this.withDefaultPagination, ...options }
+
+		return await paginateBuilderHelper<T>(query, { size, page })
 	}
 
 	/**
@@ -113,17 +116,13 @@ export abstract class CoolCRUDService<T> {
 	 * @returns
 	 */
 	async paginate(pagination?: Pagination, options?: BasePaginateOptions<T>) {
-		const p = { ...this.withDefaultPagination, ...pagination }
+		const { likes } = options || {}
 
-		// 执行查询获取结果
-		const [list, total] = await this.createPaginateBuilder(p, options).getManyAndCount()
+		const { size, page, keyword, order, sort } = { ...this.withDefaultPagination, ...pagination }
 
-		return {
-			list,
-			total,
-			page: p.page,
-			size: p.size
-		}
+		const queryBuilder = this.baseLikeBuilder({ keyword, likes }).orderBy(sort, order)
+
+		return await this.paginateBuilder(queryBuilder, { page, size })
 	}
 
 	/**
@@ -154,11 +153,13 @@ export abstract class CoolCRUDService<T> {
 	 * @returns
 	 */
 	async create(createDto: any, options?: CreateEntityOptions<T>) {
-		const { uniques, alias } = options
+		const { uniques, alias } = options || {}
 		// 字段唯一性监测
-		const flog = await this.uniqueCheck(createDto, { uniques, alias })
+		if (uniques && uniques.length) {
+			const flog = await this.uniqueCheck(createDto, { uniques, alias })
 
-		if (!flog) throw new BadRequestException('实体字段冲突')
+			if (!flog) throw new BadRequestException('实体字段冲突')
+		}
 
 		const entity = this.repository.create(createDto) as unknown as T
 
@@ -175,9 +176,11 @@ export abstract class CoolCRUDService<T> {
 	async update(id: BaseEntity['id'], updateDto: any, options?: UpdateEntityOptions<T>) {
 		const { uniques, alias } = options
 		// 字段唯一性监测
-		const flog = await this.uniqueCheck({ id, ...updateDto }, { uniques, alias })
+		if (uniques && uniques.length) {
+			const flog = await this.uniqueCheck({ id, ...updateDto }, { uniques, alias })
 
-		if (!flog) throw new BadRequestException('实体字段冲突')
+			if (!flog) throw new BadRequestException('实体字段冲突')
+		}
 
 		const entity = await this.repository.createQueryBuilder().where({ id }).getOne()
 
