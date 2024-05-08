@@ -37,7 +37,7 @@ export class CreateUserDto {
 	email: string
 
 	@IsNotEmpty({ message: '手机号不能为空' })
-	@IsPhoneNumber()
+	@IsPhoneNumber({ message: '手机号不符合规范' })
 	phone: string
 
 	@IsOptional()
