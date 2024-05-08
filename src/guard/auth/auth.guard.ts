@@ -3,6 +3,7 @@ import { Reflector } from '@nestjs/core'
 import { ConfigService } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
 import { Request } from 'express'
+import { Configuration } from '@/config'
 
 import { IS_PUBLIC_KEY, USERPAYLOAD } from '@/common/constants'
 
@@ -12,7 +13,7 @@ import { IS_PUBLIC_KEY, USERPAYLOAD } from '@/common/constants'
 @Injectable()
 export class AuthGuard implements CanActivate {
 	constructor(
-		private configService: ConfigService,
+		private configService: ConfigService<Configuration>,
 		private jwtService: JwtService,
 		private reflector: Reflector
 	) {}
@@ -35,7 +36,7 @@ export class AuthGuard implements CanActivate {
 
 		try {
 			const payload = await this.jwtService.verifyAsync<Payload>(token, {
-				secret: this.configService.get<ENV.AccessToken>('accessToken').secret
+				secret: this.configService.get('accessToken', { infer: true }).secret
 			})
 			// 💡 挂载 payload 以便后续访问
 			request[USERPAYLOAD] = payload

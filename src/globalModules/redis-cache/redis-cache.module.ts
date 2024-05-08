@@ -4,6 +4,7 @@ import { Transport, ClientProxyFactory } from '@nestjs/microservices'
 import { Redis } from 'ioredis'
 import { ConfigModule } from '../config.module'
 import { RedisCacheService } from './redis-cache.service'
+import { Configuration } from '@/config'
 
 @Module({
 	imports: [ConfigModule],
@@ -11,8 +12,10 @@ import { RedisCacheService } from './redis-cache.service'
 		RedisCacheService,
 		{
 			provide: 'MATH_SERVICE',
-			useFactory: (configService: ConfigService) => {
-				const { host, password, port, username, database } = configService.get<ENV.Redis>('redis')
+			useFactory: (configService: ConfigService<Configuration>) => {
+				const { host, password, port, username, database } = configService.get('redis', {
+					infer: true
+				})
 				return ClientProxyFactory.create({
 					transport: Transport.REDIS,
 					options: {

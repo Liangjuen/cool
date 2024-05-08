@@ -8,24 +8,23 @@ import { UPLOAD_DIRNAME } from '@/common/constants'
 import { Storage } from '@/modules/data/storage'
 import { getFileType, formatBytes } from '@/common/utils'
 import { UploadSaveOptions } from './upload.interface'
+import { Configuration } from '@/config'
 
 @Injectable()
 export class UploadService {
 	config: ENV.FileUpload
 	uploadConfig: ENV.Upload
 	constructor(
-		private readonly configService: ConfigService,
+		private readonly configService: ConfigService<Configuration>,
 		private readonly qiniu: QiniuOSSService,
 		@InjectRepository(Storage) private readonly storageRepo: Repository<Storage>
 	) {
-		this.config = configService.get<ENV.FileUpload>('file')
-		this.uploadConfig = this.configService.get<ENV.Upload>('upload')
+		this.config = configService.get('file', { infer: true })
+		this.uploadConfig = this.configService.get('upload', { infer: true })
 	}
 
 	getUploadMode() {
-		const { mode } = this.configService.get<ENV.FileUpload>('file')
-
-		return { mode }
+		return this.configService.get('file', { infer: true })
 	}
 
 	/**

@@ -3,14 +3,15 @@ import { ConfigService } from '@nestjs/config'
 import { MulterModule as MM } from '@nestjs/platform-express'
 import { ConfigModule } from './config.module'
 import { UPLOAD_FILE_SIZE, UPLOAD_LIMIT } from '@/common/constants'
+import { Configuration } from '@/config'
 
 /**
  * MulterModule 基础配置 存储交给后续中间件，可以做更多控制如上传模式(本地存储、云存储)等
  */
 export const MulterModule = MM.registerAsync({
 	imports: [ConfigModule],
-	useFactory: (configService: ConfigService) => {
-		const config = configService.get<ENV.Upload>('upload')
+	useFactory: (configService: ConfigService<Configuration>) => {
+		const config = configService.get('upload', { infer: true })
 		return {
 			// 限制
 			limits: {

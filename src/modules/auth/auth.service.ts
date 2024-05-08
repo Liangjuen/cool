@@ -4,6 +4,7 @@ import { JwtService } from '@nestjs/jwt'
 import { UsersService } from '../base/users/users.service'
 import { User } from '@/modules/base/users/entities/user.entity'
 import { MenusService } from '../base/menus'
+import { Configuration } from '@/config'
 
 /**
  * [身份认证](http://nestjs.inode.club/security/authentication)
@@ -11,7 +12,7 @@ import { MenusService } from '../base/menus'
 @Injectable()
 export class AuthService {
 	constructor(
-		private configService: ConfigService,
+		private configService: ConfigService<Configuration>,
 		private usersService: UsersService,
 		private jwtService: JwtService,
 		private menusService: MenusService
@@ -62,7 +63,7 @@ export class AuthService {
 			email
 		}
 
-		const { duration } = this.configService.get<ENV.AccessToken>('accessToken')
+		const { duration } = this.configService.get('accessToken', { infer: true })
 
 		return {
 			token: this.jwtService.sign(jwtPayload),

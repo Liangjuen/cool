@@ -1,6 +1,6 @@
-import { MailerModule, MAILER_OPTIONS } from '@nestjs-modules/mailer'
+import { MailerModule } from '@nestjs-modules/mailer'
 import { ConfigService } from '@nestjs/config'
-
+import { Configuration } from '@/config'
 export { MailerService as MailerEngineService } from '@nestjs-modules/mailer'
 
 /**
@@ -8,8 +8,8 @@ export { MailerService as MailerEngineService } from '@nestjs-modules/mailer'
  */
 export const MailerEngineModule = MailerModule.forRootAsync({
 	inject: [ConfigService],
-	useFactory: (configService: ConfigService) => {
-		const { host, user, pass, port } = configService.get<ENV.Mailer>('mailer')
+	useFactory: (configService: ConfigService<Configuration>) => {
+		const { host, user, pass, port } = configService.get('mailer', { infer: true })
 		return {
 			transport: {
 				host,

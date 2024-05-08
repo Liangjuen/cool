@@ -1,14 +1,15 @@
-import { ConfigService } from '@nestjs/config'
 import { JwtModule as JWTM } from '@nestjs/jwt'
-import { ConfigModule } from './config.module'
+import { ConfigService } from '@nestjs/config'
+import { Configuration } from '@/config'
 
 /**
  * JWT模块
  */
 export const JwtModule = JWTM.registerAsync({
-	imports: [ConfigModule],
-	useFactory: async (configService: ConfigService) => {
-		const accessToken = configService.get<ENV.AccessToken>('accessToken')
+	imports: [],
+	inject: [ConfigService],
+	useFactory: async (configService: ConfigService<Configuration>) => {
+		const accessToken = configService.get('accessToken', { infer: true })
 		const { secret, duration } = accessToken
 
 		return {
@@ -19,6 +20,6 @@ export const JwtModule = JWTM.registerAsync({
 			}
 		}
 	},
-	inject: [ConfigService],
+
 	global: true
 })

@@ -5,7 +5,7 @@ import * as yaml from 'js-yaml'
 import { envFileName } from './env'
 import { validate, ConfigDto } from './configDto'
 
-interface Configuration extends ConfigDto {}
+export interface Configuration extends ConfigDto {}
 
 /**
  * 加载 .yaml 文件配置

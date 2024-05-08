@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository, Between, Like, In } from 'typeorm'
 
 import { CoolCRUDService } from '@/common/crud'
+import { Configuration } from '@/config'
 import { User } from '@/modules/base/users/entities/user.entity'
 import { Storage } from '../entities'
 import { PaginateStorageDto } from '../dto'
@@ -15,7 +16,7 @@ export class StorageService extends CoolCRUDService<Storage> {
 	constructor(
 		@InjectRepository(Storage) private readonly storageRepo: Repository<Storage>,
 		@InjectRepository(User) private readonly userRepo: Repository<User>,
-		private readonly configService: ConfigService
+		private readonly configService: ConfigService<Configuration>
 	) {
 		super(storageRepo)
 	}
@@ -60,7 +61,7 @@ export class StorageService extends CoolCRUDService<Storage> {
 	 */
 	async delete(ids: number[]): Promise<void> {
 		const files = await this.storageRepo.findBy({ id: In(ids) })
-		const { dirname = UPLOAD_DIRNAME } = this.configService.get<ENV.Upload>('upload')
+		const { dirname = UPLOAD_DIRNAME } = this.configService.get('upload', { infer: true })
 		// 删除本地存储的文件
 		files.forEach(async file => {
 			if (!file.path) return

@@ -10,7 +10,7 @@ export const TypeOrmModule = TOM.forRootAsync({
 	imports: [ConfigModule],
 	inject: [ConfigService],
 	useFactory: (configService: ConfigService) => ({
-		...configService.get('database'),
+		...configService.get('database', { infer: true }),
 		synchronize: !isProd(), // 自动实体类同步到数据库
 		autoLoadEntities: true, // 自动加载实体
 		retryDelay: 500, // 重连数据库时间间隔
