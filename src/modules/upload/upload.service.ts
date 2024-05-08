@@ -1,6 +1,5 @@
 import { extname } from 'node:path'
 import { Injectable } from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { QiniuOSSService } from 'nest-qiniu-oss'
@@ -8,23 +7,18 @@ import { UPLOAD_DIRNAME } from '@/common/constants'
 import { Storage } from '@/modules/data/storage'
 import { getFileType, formatBytes } from '@/common/utils'
 import { UploadSaveOptions } from './upload.interface'
-import { Configuration } from '@/config'
+import { UploadConfigService } from './upload.config.service'
 
 @Injectable()
 export class UploadService {
-	config: ENV.FileUpload
-	uploadConfig: ENV.Upload
 	constructor(
-		private readonly configService: ConfigService<Configuration>,
+		private readonly config: UploadConfigService,
 		private readonly qiniu: QiniuOSSService,
 		@InjectRepository(Storage) private readonly storageRepo: Repository<Storage>
-	) {
-		this.config = configService.get('file', { infer: true })
-		this.uploadConfig = this.configService.get('upload', { infer: true })
-	}
+	) {}
 
 	getUploadMode() {
-		return this.configService.get('file', { infer: true })
+		return this.config.file
 	}
 
 	/**
@@ -73,8 +67,8 @@ export class UploadService {
 	 * @param files
 	 */
 	async saveFileMeta(files: Express.Multer.File[], options: { user: Payload; cateId?: number }) {
-		const { domain } = this.config
-		const { dirname } = this.uploadConfig
+		const { domain } = this.config.file
+		const { dirname } = this.config.upload
 		const { user, cateId } = options
 
 		const storages = files.map(file => {
@@ -95,7 +89,7 @@ export class UploadService {
 		const result = await this.storageRepo.save(storages)
 		return result.map(r => ({
 			url: r.url,
-			mode: this.config.mode
+			mode: this.config.file.mode.toString()
 		}))
 	}
 }
