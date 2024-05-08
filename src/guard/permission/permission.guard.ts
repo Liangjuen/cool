@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
 import { Request } from 'express'
 import { Reflector } from '@nestjs/core'
-import { PERMISSION_GUARD_METADATA_KEY } from '@/common/constants'
+import { PERMISSION_GUARD_METADATA_KEY, IS_PUBLIC_KEY } from '@/common/constants'
 import { RoleCacheService } from '@/modules/base/roles/cache'
 import { ROLE } from '@/common/enums'
 
@@ -15,6 +15,15 @@ export class PermissionGuard implements CanActivate {
 		private roleCacheService: RoleCacheService
 	) {}
 	async canActivate(context: ExecutionContext): Promise<boolean> {
+		// 获取(是否为开放接口)元信息
+		const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
+			context.getHandler(),
+			context.getClass()
+		])
+
+		// 是公开接口标识 放行 使用 Public 装饰器优先级最高
+		if (isPublic) return true
+
 		const permission = this.reflector.get<string[]>(
 			PERMISSION_GUARD_METADATA_KEY,
 			context.getHandler()
@@ -30,6 +39,6 @@ export class PermissionGuard implements CanActivate {
 
 		// 查看当前权限控制点是否在角色权限列表中
 
-		return !!payload.roles.find(r => rolePerms[r].includes(permission))
+		return !!payload.roles.find(r => rolePerms[r] && rolePerms[r].includes(permission))
 	}
 }
