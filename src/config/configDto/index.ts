@@ -18,7 +18,7 @@ enum Environment {
 	Test = 'test'
 }
 
-export class EnvironmentVariables {
+export class ConfigDto {
 	@IsNotEmpty()
 	@IsEnum(Environment)
 	env: Environment
@@ -62,7 +62,7 @@ export class EnvironmentVariables {
  * @param config
  */
 export const validate = (config: Record<string, any>) => {
-	const validatedConfig = plainToInstance(EnvironmentVariables, config, {
+	const validatedConfig = plainToInstance(ConfigDto, config, {
 		enableImplicitConversion: true
 	})
 	const errors = validateSync(validatedConfig, { skipMissingProperties: false })

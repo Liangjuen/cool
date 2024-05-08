@@ -3,9 +3,9 @@ import { readFileSync } from 'fs'
 import * as yaml from 'js-yaml'
 
 import { envFileName } from './env'
-import { validate, EnvironmentVariables } from './configDto'
+import { validate, ConfigDto } from './configDto'
 
-interface Configuration extends EnvironmentVariables {}
+interface Configuration extends ConfigDto {}
 
 /**
  * 加载 .yaml 文件配置
