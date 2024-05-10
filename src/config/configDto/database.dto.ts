@@ -1,13 +1,13 @@
-import { IsNumber, IsString, IsNotEmpty } from 'class-validator'
+import { DataSourceOptions } from 'typeorm'
+import { IsNumber, IsString, IsNotEmpty, IsOptional } from 'class-validator'
+import { Transform } from 'class-transformer'
+
+interface DatabaseOptions extends Pick<DataSourceOptions, 'database' | 'name' | 'synchronize'> {}
 
 /**
  * 数据库配置
  */
-export class Database {
-	@IsNotEmpty()
-	@IsString()
-	type: ENV.DatabaseType
-
+export class Database implements DatabaseOptions {
 	@IsString()
 	host: string
 
@@ -25,4 +25,8 @@ export class Database {
 	@IsNotEmpty()
 	@IsString()
 	database: string
+
+	@IsOptional()
+	@Transform(target => !!target.value)
+	synchronize: boolean
 }
