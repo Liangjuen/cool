@@ -10,7 +10,9 @@ database:
   port: 3306
   username: root
   password: secret
-  type: mysql
+  # 指示是否应该在每次应用程序启动时自动创建数据库模式(不指定将默认开启)
+  synchronize: 1
+  # 数据库名
   database: nest_demo_db
 
 # 应用程序
