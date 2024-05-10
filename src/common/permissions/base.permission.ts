@@ -20,7 +20,12 @@ export enum Base {
 	MenuCreate = 'base:menu:create',
 	MenuUpdate = 'base:menu:update',
 	MenuRemove = 'base:menu:remove',
-	PermsList = 'base:perms:list'
+	PermsList = 'base:perms:list',
+	ConfigGet = 'base:config:get',
+	ConfigList = 'base:config:list',
+	ConfigCreate = 'base:config:create',
+	ConfigUpdate = 'base:config:update',
+	ConfigRemove = 'base:config:remove'
 }
 
 export enum Upload {
