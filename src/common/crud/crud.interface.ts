@@ -20,16 +20,19 @@ export interface BasePaginateOptions<T> {
 	likes?: Columns<T>
 }
 
-/**
- * 唯一性校验
- */
-export interface UniqueCheckOptions<T> {
-	// 唯一性字段列表
-	uniques?: Columns<T>
+export interface BaseOptions<T> {
 	// 字段别名(业务名称)
 	alias?: {
 		[key in keyof T]?: string
 	}
+}
+
+/**
+ * 唯一性校验
+ */
+export interface UniqueCheckOptions<T> extends BaseOptions<T> {
+	// 唯一性字段列表
+	uniques?: Columns<T>
 }
 
 /**

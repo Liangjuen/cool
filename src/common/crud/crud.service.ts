@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common'
-import { SelectQueryBuilder, Like, Repository, Brackets } from 'typeorm'
+import { SelectQueryBuilder, Like, Repository, Brackets, DeepPartial } from 'typeorm'
 import {
 	Pagination,
 	BasePaginateOptions,
@@ -34,13 +34,10 @@ export abstract class CoolCRUDService<T> {
 	 */
 	async uniqueCheck(dto: any, options?: UniqueCheckOptions<T>) {
 		if (!options || !options.uniques) return true
-		const [first, ...rest] = options.uniques
 
 		const builder = this.repository.createQueryBuilder().where(
 			new Brackets(qb => {
-				qb.where(`${String(first)} = :key`, { key: dto[first] })
-
-				rest.forEach(field => {
+				options.uniques.forEach(field => {
 					qb.orWhere({ [field]: dto[field] })
 				})
 			})
@@ -152,7 +149,7 @@ export abstract class CoolCRUDService<T> {
 	 * @param options
 	 * @returns
 	 */
-	async create(createDto: any, options?: CreateEntityOptions<T>) {
+	async create(createDto: DeepPartial<T>, options?: CreateEntityOptions<T>) {
 		const { uniques, alias } = options || {}
 		// 字段唯一性监测
 		if (uniques && uniques.length) {
@@ -161,7 +158,7 @@ export abstract class CoolCRUDService<T> {
 			if (!flog) throw new BadRequestException('实体字段冲突')
 		}
 
-		const entity = this.repository.create(createDto) as unknown as T
+		const entity = this.repository.create(createDto)
 
 		return await this.repository.save(entity)
 	}
@@ -173,7 +170,7 @@ export abstract class CoolCRUDService<T> {
 	 * @param options
 	 * @returns
 	 */
-	async update(id: BaseEntity['id'], updateDto: any, options?: UpdateEntityOptions<T>) {
+	async update(id: BaseEntity['id'], updateDto: DeepPartial<T>, options?: UpdateEntityOptions<T>) {
 		const { uniques, alias } = options
 		// 字段唯一性监测
 		if (uniques && uniques.length) {
@@ -183,6 +180,8 @@ export abstract class CoolCRUDService<T> {
 		}
 
 		const entity = await this.repository.createQueryBuilder().where({ id }).getOne()
+
+		if (!entity) throw new BadRequestException('更新失败, 未查询到该实体')
 
 		const newEntity = this.repository.merge(entity, updateDto)
 
