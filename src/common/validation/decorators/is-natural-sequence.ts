@@ -1,27 +1,21 @@
 import { registerDecorator, ValidationOptions, ValidationArguments } from 'class-validator'
+import { isNaturalSequence } from '../validators'
 
 /**
- * 自然数验证器
+ * 自然数(正整数)序列装饰器
  */
-function isNaturalNumber(value: unknown) {
-	return typeof value === 'number' && Number.isInteger(value) && value > 0
-}
-
-/**
- * 自定义验证器装饰器，用于验证是否为自然数
- */
-export function IsNaturalNumber(validationOptions?: ValidationOptions) {
+export function IsNaturalSequence(validationOptions?: ValidationOptions) {
 	// eslint-disable-next-line @typescript-eslint/ban-types
 	return function (object: Object, propertyName: string) {
 		registerDecorator({
-			name: 'isNaturalNumber',
+			name: 'isNaturalSequence',
 			target: object.constructor,
 			propertyName: propertyName,
 			constraints: [],
 			options: validationOptions,
 			validator: {
 				validate(value: any, args: ValidationArguments) {
-					return isNaturalNumber(value)
+					return isNaturalSequence(value)
 				}
 			}
 		})
