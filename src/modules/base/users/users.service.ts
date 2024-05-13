@@ -115,6 +115,7 @@ export class UsersService {
 
 		roles = roles && roles.length ? roles : defaultConfig.roles
 		const user = await this.userRepository.findOneBy({ id })
+		if (!user) throw new BadRequestException('未查询到相关用户信息')
 		const newUser = this.userRepository.merge(user, { ...updateUserDto, roles })
 		if (updateUserDto.password) await newUser.hashPassword()
 		const result = await this.userRepository.save(newUser)

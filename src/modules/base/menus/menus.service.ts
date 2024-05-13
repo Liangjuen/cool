@@ -67,6 +67,8 @@ export class MenusService {
 
 		const menu = await this.menuRepository.findOneBy({ id })
 
+		if (!menu) throw new BadRequestException('未查询到相关菜单信息')
+
 		const newMenu = this.menuRepository.merge(menu, data)
 
 		return await this.menuRepository.save(newMenu)

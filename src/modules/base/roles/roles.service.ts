@@ -66,6 +66,7 @@ export class RoleService {
 		await this.checkIfFieldsExist({ name, code, id })
 
 		const role = await this.roleRepository.findOneBy({ id })
+		if (!role) throw new BadRequestException('未查询到相关角色信息')
 		const newRole = this.roleRepository.merge(role, updateRoleDto)
 
 		// 通知缓存更新
