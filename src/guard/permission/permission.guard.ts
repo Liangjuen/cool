@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common'
 import { Request } from 'express'
 import { Reflector } from '@nestjs/core'
-import { PERMISSION_GUARD_METADATA_KEY, IS_PUBLIC_KEY } from '@/common/constants'
+import { PERMISSION_GUARD_METADATA_KEY, IS_PUBLIC_KEY, USERPAYLOAD } from '@/common/constants'
 import { RoleCacheService } from '@/modules/base/roles/cache'
 import { ROLE } from '@/common/enums'
 
@@ -29,7 +29,7 @@ export class PermissionGuard implements CanActivate {
 			context.getHandler()
 		)
 
-		const payload: Payload = context.switchToHttp().getRequest<Request>()['user']
+		const payload: Payload = context.switchToHttp().getRequest<Request>()[USERPAYLOAD]
 
 		// 超管放行
 		if (payload.roles.includes(ROLE.Admin)) return true
