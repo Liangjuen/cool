@@ -18,6 +18,11 @@ async function bootstrap() {
 	const app = await NestFactory.create<NestExpressApplication>(AppModule)
 
 	/**
+	 * 启用CORS
+	 */
+	app.enableCors({ origin: '*', credentials: true })
+
+	/**
 	 * swagger 生成
 	 */
 	const config = new DocumentBuilder()
