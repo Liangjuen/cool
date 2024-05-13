@@ -35,6 +35,7 @@
       "@nestjs/microservices": "^10.3.8",
       "@nestjs/platform-express": "^10.0.0",
       "@nestjs/swagger": "^7.3.1",
+      "@nestjs/throttler": "^5.1.2",
       "@nestjs/typeorm": "^10.0.2",
       "@types/bcrypt": "^5.0.2",
       "bcrypt": "^5.1.1",
@@ -47,10 +48,10 @@
       "mysql2": "^3.9.4",
       "nest-qiniu-oss": "^1.0.3",
       "nodemailer": "^6.9.13",
+      "pg": "^8.4.0",
       "reflect-metadata": "^0.1.13",
       "rxjs": "^7.8.1",
-      "typeorm": "0.3.17",
-      "pg": "^8.4.0"
+      "typeorm": "0.3.17"
    },
    "devDependencies": {
       "@nestjs/cli": "^10.0.0",
