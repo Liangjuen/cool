@@ -61,6 +61,7 @@ export class DepartmentsService {
 		await this.checkIfFieldsExist({ id, name })
 
 		const depart = await this.departRepository.findOneBy({ id })
+		if (!depart) throw new BadRequestException('未查询到该部门')
 
 		const newDepart = this.departRepository.merge(depart, {
 			...updateDepartmentDto,
