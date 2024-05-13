@@ -83,3 +83,10 @@ upload:
 
 # (非必填项，默认接收所有文件类型) 接收类型例如：[image, jpeg, png, jpg, gif, svg, tif, webp, mp4, mp3, xls, xlsx, doc, dot, wps, docx, pdf, ppt, pptx]
   accept: [image, jpeg, png, jpg, gif, svg, tif, webp, mp4, mp3, xls, xlsx, doc, dot, wps, docx, pdf, ppt, pptx]
+
+# 访问限流
+throttler:
+# 每个请求在存储中的持续时间（以秒为单位）
+  ttl: 60
+# 在 TTL 限制内的最大请求次数
+  limit: 10

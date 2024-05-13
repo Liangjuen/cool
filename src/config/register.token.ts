@@ -15,5 +15,6 @@ export const configRegToken: ConfigRegToken = {
 	mailer: 'mailer',
 	file: 'file',
 	qiniu: 'qiniu',
-	upload: 'upload'
+	upload: 'upload',
+	throttler: 'throttler'
 }

@@ -11,6 +11,7 @@ import { Qiniu } from './qiniu.dto'
 import { Redis } from './redis.dto'
 import { Upload } from './upload.dto'
 import { FileUpload } from './file.dto'
+import { Throttler } from './throttler.dto'
 
 enum Environment {
 	Development = 'development',
@@ -55,6 +56,9 @@ export class ConfigDto {
 
 	@ValidateNested()
 	upload: Upload
+
+	@ValidateNested()
+	throttler: Throttler
 }
 
 /**
