@@ -3,7 +3,7 @@ declare namespace API {
 	 * 返回结构
 	 */
 	interface Response<T> {
-		data: T
+		data?: T
 		code: number
 		message: string
 	}
