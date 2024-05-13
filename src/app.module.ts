@@ -1,8 +1,15 @@
 import { Module, NestModule, MiddlewareConsumer, RequestMethod } from '@nestjs/common'
 import { APP_GUARD } from '@nestjs/core'
+import { ThrottlerGuard } from '@nestjs/throttler'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
-import { ConfigModule, TypeOrmModule, JwtModule, EventEmitterModule } from '@/globalModules'
+import {
+	ConfigModule,
+	TypeOrmModule,
+	JwtModule,
+	EventEmitterModule,
+	ThrottlerModule
+} from '@/globalModules'
 import { ApiModule } from '@/modules'
 import { LoggerMiddleware } from '@/middleware'
 import { AuthGuard } from '@/guard'
@@ -13,6 +20,7 @@ import { MailerModule } from '@/modules/mailer/mailer.module'
 @Module({
 	imports: [
 		ConfigModule,
+		ThrottlerModule,
 		TypeOrmModule,
 		JwtModule,
 		EventEmitterModule,
@@ -27,6 +35,10 @@ import { MailerModule } from '@/modules/mailer/mailer.module'
 		{
 			provide: APP_GUARD,
 			useClass: AuthGuard
+		},
+		{
+			provide: APP_GUARD,
+			useClass: ThrottlerGuard
 		}
 	],
 	exports: [RoleCacheModule]
