@@ -21,6 +21,6 @@ export class Dict extends BaseEntity {
 	@Column({ comment: '类型ID' })
 	typeId: number
 
-	@Column({ comment: '值' })
+	@Column({ comment: '值', nullable: true })
 	value: string
 }
