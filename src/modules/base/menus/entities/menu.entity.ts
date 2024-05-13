@@ -3,7 +3,7 @@ import { BaseEntity } from '@/common/entity'
 import { Status } from '@/common/enums'
 import { MenuCache, MenuHidden, MenuType } from '../menus.type'
 
-@Entity({ name: 'menus', comment: '菜单表' })
+@Entity('menus')
 export class Menu extends BaseEntity {
 	@Index({ unique: true })
 	@Column({ default: '' })

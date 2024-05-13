@@ -1,10 +1,7 @@
 import { Entity, Column, Index } from 'typeorm'
 import { BaseEntity } from '@/common/entity'
 
-@Entity({
-	name: 'departments',
-	comment: '部门表'
-})
+@Entity('departments')
 export class Department extends BaseEntity {
 	@Index({ unique: true })
 	@Column({ comment: '部门名称' })

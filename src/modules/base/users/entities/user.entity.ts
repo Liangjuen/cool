@@ -3,10 +3,7 @@ import { BaseEntity } from '@/common/entity'
 import { Status, Gender, ROLE } from '@/common/enums'
 import * as bcrypt from 'bcrypt'
 
-@Entity({
-	name: 'base_sys_users',
-	comment: '系统用户表'
-})
+@Entity('base_sys_users')
 export class User extends BaseEntity {
 	@Index()
 	@Column({ comment: '部门ID', nullable: true, default: null })

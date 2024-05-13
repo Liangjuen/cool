@@ -2,10 +2,7 @@ import { Entity, Column } from 'typeorm'
 import { ApiProperty } from '@nestjs/swagger'
 import { BaseEntity } from '@/common/entity'
 
-@Entity({
-	name: ' sys_config',
-	comment: '系统配置'
-})
+@Entity('sys_config')
 export class SysConfig extends BaseEntity {
 	@ApiProperty({ description: '配置名' })
 	@Column({ unique: true, type: 'varchar', length: 50, comment: '配置名' })

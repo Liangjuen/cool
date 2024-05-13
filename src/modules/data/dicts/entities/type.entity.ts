@@ -1,10 +1,7 @@
 import { Entity, Column } from 'typeorm'
 import { BaseEntity } from '@/common/entity'
 
-@Entity({
-	name: 'dict_types',
-	comment: '字典类型表'
-})
+@Entity('dict_types')
 export class DictType extends BaseEntity {
 	@Column({ unique: true })
 	name: string

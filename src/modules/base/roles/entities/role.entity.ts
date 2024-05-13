@@ -2,10 +2,7 @@ import { Entity, Column } from 'typeorm'
 import { BaseEntity } from '@/common/entity'
 import { Status } from '@/common/enums'
 
-@Entity({
-	name: 'roles',
-	comment: '角色表'
-})
+@Entity('roles')
 export class Role extends BaseEntity {
 	@Column({ unique: true })
 	name: string
