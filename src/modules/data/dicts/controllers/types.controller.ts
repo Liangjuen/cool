@@ -3,7 +3,6 @@ import {
 	UseGuards,
 	Delete,
 	Get,
-	Query,
 	Put,
 	Param,
 	ParseIntPipe,
@@ -36,7 +35,7 @@ export class DictTypeController {
 	@Get()
 	@ApiOperation({ summary: '查询字典类型列表' })
 	@Permission(PERM.Dict.TypeList)
-	findAll(@Query() pagination: PaginateDto) {
+	findAll(@Param() pagination: PaginateDto) {
 		return this.service.findAll(pagination)
 	}
 

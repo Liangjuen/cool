@@ -15,4 +15,6 @@ export class CreateStorageCateDto {
 	pId?: number
 }
 
-export class UpdateStorageCateDto extends PartialType(CreateStorageCateDto) {}
+export class UpdateStorageCateDto extends PartialType(CreateStorageCateDto, {
+	skipNullProperties: false
+}) {}

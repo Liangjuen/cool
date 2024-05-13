@@ -1,10 +1,14 @@
-import { IsNotEmpty, IsOptional, IsString, IsInt, MaxLength } from 'class-validator'
+import { IsNotEmpty, IsOptional, IsInt, IsDefined, MaxLength, IsString } from 'class-validator'
 
 export class CreateDictDto {
-	@IsNotEmpty()
+	// @IsNotEmpty({ message: 'typeId 为必填项' })
+	// @IsDefined()
+	@IsString()
+	@MaxLength(20, { message: '字典名长度不得超过 20 ' })
 	name: string
 
-	@IsNotEmpty()
+	// @IsNotEmpty({ message: 'typeId 为必填项' })
+	// @IsDefined({ message: 'typeId 不能为 null 或 undefined' })
 	@IsInt()
 	typeId: number
 

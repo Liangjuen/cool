@@ -4,7 +4,6 @@ import {
 	Put,
 	Post,
 	Body,
-	Query,
 	Param,
 	Delete,
 	ParseIntPipe,
@@ -40,7 +39,7 @@ export class DictsController {
 	@Get()
 	@ApiOperation({ summary: '查询字典列表' })
 	@Permission(PERM.Dict.List)
-	findAll(@Query() pagination: PaginateDto) {
+	findAll(@Param() pagination: PaginateDto) {
 		return this.service.findAll(pagination)
 	}
 

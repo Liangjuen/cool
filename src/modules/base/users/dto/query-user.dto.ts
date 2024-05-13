@@ -5,6 +5,7 @@ import { Status, Gender } from '@/common/enums'
 
 export class QueryUsersDto extends PartialType(PaginateDto) {
 	@IsOptional()
+	@IsArray({ message: 'departmentIds 应该为数组' })
 	@IsInt({ each: true })
 	departmentIds?: number[]
 
