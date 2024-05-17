@@ -40,7 +40,7 @@ export class StorageService extends CoolCRUDService<Storage> {
 
 		const queryBuilder = this.storageRepo
 			.createQueryBuilder('storage')
-			.leftJoinAndSelect('base_sys_user', 'user', 'storage.userId = user.id')
+			.leftJoinAndSelect('base_sys_users', 'user', 'storage.userId = user.id')
 			.where({
 				...(cateId && { cateId }),
 				...(keyword && { name: Like(`%${keyword}%`) }),
