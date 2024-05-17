@@ -15,7 +15,9 @@ const {
 const logger = new Logger()
 
 async function bootstrap() {
-	const app = await NestFactory.create<NestExpressApplication>(AppModule)
+	const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+		logger: ['warn', 'error', 'verbose']
+	})
 
 	/**
 	 * 启用CORS
