@@ -9,6 +9,36 @@ declare namespace API {
 	}
 
 	/**
+	 * 异常结构
+	 */
+	interface Exception {
+		/**
+		 * 错误状态码
+		 */
+		statusCode: number
+		/**
+		 * 错误描述
+		 */
+		message: string
+		/**
+		 * 时间戳 唯一标识
+		 */
+		timestamp: number
+		/**
+		 * 请求路径
+		 */
+		path: string
+		/**
+		 * 请求方法
+		 */
+		method: string
+		/**
+		 * 详细信息
+		 */
+		detail?: T
+	}
+
+	/**
 	 * 分页查询条件
 	 */
 	interface Pagination {
