@@ -3,8 +3,6 @@ import { NestFactory } from '@nestjs/core'
 import { ValidationPipe, Logger } from '@nestjs/common'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { NestExpressApplication } from '@nestjs/platform-express'
-import { HttpExceptionFilter } from '@/filters'
-import { ResponseInterceptor } from '@/interceptors'
 import { AppModule } from './app.module'
 import { configuration } from '@/config'
 
@@ -43,19 +41,9 @@ async function bootstrap() {
 	app.useGlobalPipes(new ValidationPipe())
 
 	/**
-	 * 响应拦截(定义接口返回数据格式)
-	 */
-	app.useGlobalInterceptors(new ResponseInterceptor())
-
-	/**
 	 * 静态资源托管
 	 */
 	app.useStaticAssets(join(process.cwd(), 'public'))
-
-	/**
-	 * 全局异常过滤器
-	 */
-	app.useGlobalFilters(new HttpExceptionFilter())
 
 	/**
 	 * 启动服务监听
