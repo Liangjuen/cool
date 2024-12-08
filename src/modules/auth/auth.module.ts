@@ -5,6 +5,8 @@ import { UsersModule } from '../base/users/users.module'
 import { UsersService } from '../base/users/users.service'
 import { MenusModule, MenusService } from '../base/menus'
 import { RoleModule, RoleService } from '../base/roles'
+import { SysLogModule, LoginLogsService } from '../base/log'
+import { LoginListener } from './listeners/login.listener'
 
 /**
  * 身份认证模块
@@ -15,8 +17,8 @@ import { RoleModule, RoleService } from '../base/roles'
  *
  */
 @Module({
-	imports: [UsersModule, MenusModule, RoleModule],
-	providers: [AuthService, UsersService, MenusService, RoleService],
+	imports: [UsersModule, MenusModule, RoleModule, SysLogModule],
+	providers: [AuthService, UsersService, MenusService, RoleService, LoginLogsService, LoginListener],
 	controllers: [AuthController],
 	exports: [AuthService]
 })

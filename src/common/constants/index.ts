@@ -17,3 +17,7 @@ export const UPLOAD_FILE_SIZE = 1024 * 1024 * 10
 export const UPLOAD_TYPE = 'UPLOAD_TYPE'
 
 export const USERPAYLOAD = 'user'
+
+export const LOGIN_SUCCESS_EVENT = 'login.success.event'
+
+export const LOGIN_FAILED_EVENT = 'login.failed.event'

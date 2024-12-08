@@ -5,19 +5,29 @@ import { MenusController, MenusModule, MenusService } from './menus'
 import { PermsModule, PermsController, PermsService } from './perms'
 import { RoleController, RoleModule, RoleService } from './roles'
 import { SysConfigController, SysConfigModule, SysConfigService } from './sys-config'
+import { SysLogModule, LoginLogsService } from './log'
 
 /**
  *  base 模块
  */
 @Module({
-	imports: [DepartmentModule, RoleModule, UsersModule, MenusModule, PermsModule, SysConfigModule],
+	imports: [
+		DepartmentModule,
+		RoleModule,
+		UsersModule,
+		MenusModule,
+		PermsModule,
+		SysConfigModule,
+		SysLogModule
+	],
 	providers: [
 		DepartmentsService,
 		RoleService,
 		UsersService,
 		MenusService,
 		PermsService,
-		SysConfigService
+		SysConfigService,
+		LoginLogsService
 	],
 	controllers: [
 		DepartmentsController,
@@ -27,6 +37,6 @@ import { SysConfigController, SysConfigModule, SysConfigService } from './sys-co
 		PermsController,
 		SysConfigController
 	],
-	exports: [UsersService, MenusService, SysConfigService]
+	exports: [UsersService, MenusService, SysConfigService, LoginLogsService]
 })
 export class BaseModule {}

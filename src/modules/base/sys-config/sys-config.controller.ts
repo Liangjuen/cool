@@ -23,7 +23,7 @@ import { ApiTags, ApiOperation } from '@nestjs/swagger'
 
 @ApiTags('系统配置')
 @UseGuards(PermissionGuard)
-@Controller('sys-config')
+@Controller('/base/sys-config')
 export class SysConfigController {
 	constructor(private readonly sysConfigService: SysConfigService) {}
 

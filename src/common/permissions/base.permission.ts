@@ -25,7 +25,10 @@ export enum Base {
 	ConfigList = 'base:config:list',
 	ConfigCreate = 'base:config:create',
 	ConfigUpdate = 'base:config:update',
-	ConfigRemove = 'base:config:remove'
+	ConfigRemove = 'base:config:remove',
+	LoginLogList = 'base:login-log:list',
+	LoginLogRemove = 'base:login-log:remove',
+	LoginLogClear = 'base:login-log:clear'
 }
 
 export enum Upload {
