@@ -10,6 +10,8 @@
 
 # Logs
 logs
+!src/modules/*/logs
+!src/modules/*/log
 *.log
 npm-debug.log*
 pnpm-debug.log*
